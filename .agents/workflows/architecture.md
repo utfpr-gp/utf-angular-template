@@ -21,15 +21,15 @@ Você é o entrevistador técnico. O aluno é o Arquiteto: **ele decide; você a
 
 ## Passo 1 — As decisões, uma por vez
 
-1. **Frontend** — apresente as opções que as *Regras da disciplina* permitem. Registre a versão e grave no documento **só o bloco de padrões da stack escolhida**, partindo destes (o aluno ratifica ou ajusta):
+1. **Frontend** — a ficha fixa o framework; o que se decide aqui é a **linha da versão** (ex.: "Angular 20+") e os padrões de código. **Registre a linha, nunca o número exato** (`20.3.1` vive no `package.json` — versão em prosa envelhece em silêncio e o agente confia no texto). Grave no documento o bloco de padrões da stack, partindo destes (o aluno ratifica ou ajusta):
    - **Angular:** componentes standalone (padrão atual — não se escreve `standalone: true`), signals para estado, `@if`/`@for`/`@switch` (não `*ngIf`/`*ngFor`), `input()`/`output()` como funções, `inject()` (não injeção por construtor), lazy loading por rota de feature.
    - **React:** componentes de função com hooks (sem classes), estado do servidor separado do estado de UI, roteamento com lazy loading por rota, componentes de página distintos de componentes reutilizáveis.
    - **Vue:** Composition API com `<script setup>` (não Options API), `ref`/`computed` para estado, roteamento com lazy loading por rota, props e emits tipados.
 
    Independente da escolha, registre também a **regra da camada de dados**, que vale para as três: componente não fala com o servidor — todo acesso à API passa por uma camada de repositório/serviço; mudança de contrato mexe só nessa camada, nunca nas telas.
-2. **Backend e banco** — o que a ficha fixa, registre como está; o que ela deixa livre, decida aqui (versões, banco local via Docker, provedor do banco em nuvem — respeitando as recomendações e vetos da ficha).
+2. **Fonte de dados, por fase** — o que a ficha fixa, registre como está; o que ela deixa livre, decida aqui: onde vive o `db.json` do json-server no MVP, qual BaaS entra na E3 e como a troca é absorvida pelos Services.
 3. **Testes** — a ferramenta em cada app e os **comandos exatos** para rodar suíte e lint.
-4. **Estrutura do projeto** — onde o código do app vive (`src/`) e a organização interna: `core/` (Services de dados, guards, interceptors), `shared/` (componentes burros, pipes) e `features/` (uma pasta por domínio), com a regra de dependência entre elas.
+4. **Estrutura do projeto** — a casca de monorepo `apps/web` (o app Angular) e `apps/api` (**vazia**, reservada para uma API real futura; o setup não gera nada nela), e a organização interna de `apps/web/src/app/`: `core/` (Services de dados, guards, interceptors), `shared/` (componentes burros, pipes) e `features/` (uma pasta por domínio), com a regra de dependência entre elas.
 5. **Glossário técnico** — termos do PRD (PT) → entidades (EN) com atributos principais. Dados e código em inglês, interface em português — meio a meio é o que produz `listaPedidos`.
 6. **Diagrama ER (Mermaid)** — as entidades e relações, incluindo as que o **escopo mínimo da ficha** exige.
 7. **Padrões estruturais cobrados pelos IDs** — percorra o `docs/checklist.md` e, para **cada ID que exige um padrão de código ou de infraestrutura** (camadas, validação de entrada, autenticação, formato de resposta e erro, segredos, integrações), declare o padrão explicitamente no documento. É esta declaração que os revisores vão usar como critério fixo.

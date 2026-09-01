@@ -73,7 +73,7 @@ Todo trabalho gira em torno de onze artefatos. Eles são a matéria-prima da sua
 | **`spec.md`** | `specs/<issue>-<slug>/` | O que precisa existir e como saber que ficou pronto. |
 | **`plan.md`** | `specs/<issue>-<slug>/` | Como será construído, em tarefas pequenas. |
 | **Pareceres de revisão** | `specs/<issue>-<slug>/reviews/` | O que cada revisor apontou, sem edição. É a prova de que a revisão aconteceu. |
-| **Código** | `src/` | O que a IA escreve seguindo o plano. |
+| **Código** | `apps/web/` | O que a IA escreve seguindo o plano. |
 | **Pull Request** | GitHub | Onde você explica, com suas palavras, o que foi feito. |
 
 Desses onze itens, a IA produz sozinha apenas **o código, o plano e os pareceres**.
@@ -176,8 +176,9 @@ Contém:
 - **Stack tecnológica e ambiente.** Os frameworks e paradigmas. *Declare a tecnologia
   aqui, mas deixe a versão exata do ambiente viver no `.tool-versions` e as
   bibliotecas no `package.json`.*
-- **Estrutura do projeto.** Que pasta guarda o quê dentro do app Angular —
-  `core/`, `shared/`, `features/` — e a regra de dependência entre elas.
+- **Estrutura do projeto.** A casca de monorepo (`apps/web` com o app; `apps/api`
+  vazia, reservada para uma API futura) e que pasta guarda o quê dentro do app —
+  `core/`, `shared/`, `features/` — com a regra de dependência entre elas.
 - **Diagrama de contexto (opcional).** Trata o seu sistema como caixa preta e ilustra
   quem o usa e com que serviços externos ele conversa (o BaaS, autenticação social,
   mapas, sistema da UTFPR).

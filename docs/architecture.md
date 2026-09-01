@@ -76,10 +76,19 @@
 ├── README.md              # a vitrine, na estrutura exigida pela ficha
 ├── docs/                  # prd.md, este arquivo, design-tokens.md, checklist.md e guias
 ├── specs/                 # uma pasta por história implementada
-└── src/                   # o app Angular ([preencher no /utf-setup])
+└── apps/
+    ├── web/               # o app Angular — package.json próprio
+    └── api/               # reservada para uma API real, se um dia existir
 ```
 
-### Organização interna do app (feature-driven)
+> 📌 **Por que `apps/` com duas pastas se só uma tem código.** Nesta disciplina os
+> dados vêm do json-server e depois do BaaS: não há backend para escrever. Mas a
+> casca do monorepo custa nada agora e evita mover o projeto inteiro no dia em que
+> uma API própria fizer sentido. **`apps/api/` nasce vazia, e continua vazia** — o
+> setup não gera backend nenhum; ela só guarda o lugar (e o `db.json` do
+> json-server, se o documento assim declarar).
+
+### Organização interna do app (`apps/web/src/app/` — feature-driven)
 
 [decidido na entrevista: `core/` (singletons: guards, interceptors, services de
 dados), `shared/` (componentes burros, pipes), `features/` (uma pasta por
