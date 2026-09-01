@@ -34,7 +34,7 @@ status: rascunho   # rascunho | aprovada
 
 **Passo 3: Execução (uma tarefa por vez)**
 - A branch da história existe desde o Passo 1. Antes do primeiro código, confira que o `spec.md` (aprovado) e o `plan.md` estão commitados nela — é esse `git log` que prova que a especificação veio antes do código.
-- Execute **uma tarefa por vez** através do fluxo `ciclo-tarefa` (`.agents/workflows/ciclo-tarefa.md`), que despacha o subagente **implementador** com contexto limpo e, depois dele, dois revisores distintos e somente-leitura: **revisor-conformidade** (diff × critérios de aceite da `spec.md`) e **revisor-codigo** (diff × `docs/architecture.md`).
+- Execute **uma tarefa por vez** através do fluxo `utf-task` (`.agents/workflows/utf-task.md`), que despacha o subagente **implementador** com contexto limpo e, depois dele, dois revisores distintos e somente-leitura: **revisor-conformidade** (diff × critérios de aceite da `spec.md`) e **revisor-codigo** (diff × `docs/architecture.md`).
 - **Você nunca revisa o código que você mesmo despachou.** Revisor é sempre outro agente, sem permissão de escrita. Auto-auditoria não conta como revisão: quem escreveu carrega os mesmos pontos cegos.
 - Ao fim de cada tarefa, pare e devolva o controle ao usuário. Ele pede a próxima.
 

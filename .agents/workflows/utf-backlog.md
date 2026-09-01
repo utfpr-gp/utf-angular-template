@@ -44,7 +44,7 @@ usuário — Issue criada aparece para a turma e para o professor.
 
 A criação do board é **manual** (a interface do Projects muda rápido e o
 aluno precisa conhecê-la): oriente-o a criar um Project no repositório com as
-colunas `Backlog`, `Ready`, `In Progress`, `Done`, e a adicionar as Issues
+colunas `Backlog`, `Ready`, `In Progress`, `Blocked` e `Done` (a `Blocked` recebe a história pausada à espera de outra — guia, seção *Quando o ciclo não é linear*), e a adicionar as Issues
 recém-criadas — `Must Have` primeiro no topo do `Backlog`.
 
 Se o MCP/`gh` da sessão conseguir adicionar as Issues ao Project, ofereça

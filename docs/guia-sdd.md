@@ -140,16 +140,18 @@ visão, as histórias de usuário (com status de rascunho até concluído) e um 
 **Visão e objetivo.** Um ou dois parágrafos: que problema o sistema resolve, para quem.
 
 **Glossário ubíquo.** A parte mais subestimada do PRD, e a que mais economiza tempo
-depois. Uma tabela ligando o termo do negócio, em português, ao nome da entidade no
-código:
+depois. Uma tabela com os termos do negócio, em português, como as pessoas falam —
+cada um com o que significa e com o que não confundir:
 
-| Termo do negócio | Entidade no código | Atributos principais |
+| Termo | Significa | Não confundir com |
 | --- | --- | --- |
-| Carona | `Ride` | `id, driver, origin, destination, departsAt, seats, status` |
-| Solicitação | `RideRequest` | `id, ride, passenger, status` |
+| Carona | A oferta de um trajeto com vagas, feita por um motorista | Solicitação (o pedido de vaga) |
+| Solicitação | O pedido de um passageiro por uma vaga numa carona | Vaga confirmada |
 
-Sem isso, a IA cria `Carona`, `Ride` e `Trip` na mesma base, em semanas
-diferentes, e cada um parece razoável no contexto em que nasceu.
+Tecnologia não entra aqui: a tradução de cada termo para a entidade no código
+(Carona → `Ride`) vive no **glossário técnico do `architecture.md`**, e é de lá que a
+IA tira os nomes. Sem essa dupla, ela cria `Carona`, `Ride` e `Trip` na mesma base,
+em semanas diferentes, e cada um parece razoável no contexto em que nasceu.
 
 **Atores e permissões.** Quem usa o sistema e o que cada perfil pode fazer.
 
@@ -258,7 +260,6 @@ confiar.
 | `docs/prd.md` | **o que o produto faz** — histórias, critérios e o que já está pronto |
 | `docs/architecture.md` | **onde as coisas estão** — estrutura, entidades, contratos, estados |
 | `docs/design-tokens.md` | **como o produto se parece** — tokens, breakpoints, identidade PWA, protótipo |
-| `docs/checklist.md` | **o que a disciplina exige** — regras, IDs e entregas |
 | `docs/checklist.md` | **o que a disciplina exige** — regras, IDs e entregas |
 | `specs/` | **o que está sendo construído agora** — uma pasta por história |
 
@@ -659,8 +660,8 @@ E existe um teste de uma linha para responder:
 > naturalmente separar por camada, porque é assim que o código se organiza. E aí o
 > estrago é duplo: além do backlog ficar impossível de demonstrar, **a spec fica sem
 > critério de aceite verificável**. "O endpoint existe" não é algo que alguém consegue
-> confirmar usando o sistema; "quando o motorista aceita, a solicitação muda para CPROVADO e
-> ele recebe o e-mail" é. Fatia horizontal não gera spec ruim por acaso — gera por
+> confirmar usando o sistema; "quando o motorista aceita, a solicitação muda de PENDENTE
+> para CONFIRMADA e a vaga sai do total disponível" é. Fatia horizontal não gera spec ruim por acaso — gera por
 > construção, porque não existe usuário no fim dela.
 
 "Criar o método `accept()` no `RideRequestService`" não é algo que um usuário faz. Ninguém
@@ -799,7 +800,7 @@ Com quinze pastas em `specs/`, ninguém sabe o que está vivo. Mantenha um
 | --- | --- | --- | --- |
 | #12 | `12-concluir-carona` | implementada | — |
 | #27 | `27-solicitar-vaga` | bloqueada | espera #31 |
-| #31 | `031-vaga-concorrente` | aberta | descoberta durante #27 |
+| #31 | `31-vaga-concorrente` | aberta | descoberta durante #27 |
 
 ---
 
@@ -866,10 +867,11 @@ chega como surpresa.
 o diff daquela tarefa e o `architecture.md`, e devolve:
 
 1. **O que o código faz**, em português, seguindo o caminho da requisição
-2. **Por que o framework faz assim** — não "criei um service", mas *por que o Nest injeta
-   o service em vez de você dar `new`, e o que quebraria se não injetasse*
+2. **Por que o framework faz assim** — não "criei um service", mas *por que o Angular
+   injeta o service via `inject()` em vez de você dar `new`, e o que quebraria se não
+   injetasse*
 3. **O nome certo dos conceitos** que apareceram, para você conseguir pesquisar sozinho
-   ("isso se chama injeção de dependência", "esse decorator é um Guard")
+   ("isso se chama injeção de dependência", "essa função passada à rota é um Guard")
 4. **Três perguntas** que um professor poderia fazer sobre esse diff
 
 Se você não souber responder às três, o trabalho não acabou. Leia o código de novo, ou
