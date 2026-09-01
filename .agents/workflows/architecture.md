@@ -9,8 +9,8 @@ Você é o entrevistador técnico. O aluno é o Arquiteto: **ele decide; você a
 ## Regras da conversa
 
 - **Uma decisão por vez**, com as opções que a disciplina permite e o custo de cada uma — mas quem escolhe é ele.
-- **Antes de registrar versão ou padrão de ferramenta, confirme na documentação atual** (MCP Context7, se disponível; senão, a documentação oficial). Sua memória de treino desatualiza — foi assim que se descobriu que os geradores atuais de Angular e NestJS entregam Vitest, não Jest. Versão registrada sem conferência é retrabalho no setup.
-- Detalhe de história (DTO específico, tela, máquina de estados) **não entra**: nasce na spec de cada história.
+- **Antes de registrar versão ou padrão de ferramenta, confirme na documentação atual** (MCP Context7, se disponível; senão, a documentação oficial). Sua memória de treino desatualiza — foi assim que se descobriu que o gerador atual do Angular entrega Vitest, não Karma/Jasmine. Versão registrada sem conferência é retrabalho no setup.
+- Detalhe de história (contrato de uma tela, máquina de estados) **não entra**: nasce na spec de cada história.
 - O documento e o futuro `package.json` contam a mesma história: dependência que não estiver aqui não entra no projeto.
 
 ## Passo 0 — Pré-condições
@@ -29,15 +29,15 @@ Você é o entrevistador técnico. O aluno é o Arquiteto: **ele decide; você a
    Independente da escolha, registre também a **regra da camada de dados**, que vale para as três: componente não fala com o servidor — todo acesso à API passa por uma camada de repositório/serviço; mudança de contrato mexe só nessa camada, nunca nas telas.
 2. **Backend e banco** — o que a ficha fixa, registre como está; o que ela deixa livre, decida aqui (versões, banco local via Docker, provedor do banco em nuvem — respeitando as recomendações e vetos da ficha).
 3. **Testes** — a ferramenta em cada app e os **comandos exatos** para rodar suíte e lint.
-4. **Estrutura do monorepo** — `apps/api`, `apps/web`, e a organização interna de cada um.
+4. **Estrutura do projeto** — onde o código do app vive (`src/`) e a organização interna: `core/` (Services de dados, guards, interceptors), `shared/` (componentes burros, pipes) e `features/` (uma pasta por domínio), com a regra de dependência entre elas.
 5. **Glossário técnico** — termos do PRD (PT) → entidades (EN) com atributos principais. Dados e código em inglês, interface em português — meio a meio é o que produz `listaPedidos`.
 6. **Diagrama ER (Mermaid)** — as entidades e relações, incluindo as que o **escopo mínimo da ficha** exige.
 7. **Padrões estruturais cobrados pelos IDs** — percorra o `docs/checklist.md` e, para **cada ID que exige um padrão de código ou de infraestrutura** (camadas, validação de entrada, autenticação, formato de resposta e erro, segredos, integrações), declare o padrão explicitamente no documento. É esta declaração que os revisores vão usar como critério fixo.
-8. **O contrato da API é a documentação viva** — se a ficha exige documentação de API interativa (OpenAPI/Swagger), declare-a como o contrato: gerada do código e servida pela própria API, com o frontend derivando os contratos dela. O `architecture.md` **não mantém tabela de endpoints à mão** (apodreceria e viraria mentira), e o arquivo gerado (ex.: `swagger.json`) **não é commitado** — cópia no repo desatualiza; a fonte é o endpoint vivo.
+8. **O contrato dos dados** — declare onde ele mora: no MVP, a forma do `db.json` do json-server; na migração, o schema do BaaS. Este documento guarda o **modelo** (glossário e ER), não a lista de endpoints à mão — ela apodrece. Registre também que a troca de fonte de dados atinge **só os Services** (§ camada de dados).
 
 ## Passo 2 — A garantia do setup
 
-Antes de fechar, confira que o documento declara **explicitamente** as quatro coisas que o Passo 0 do `/utf-setup` exige: framework do backend, framework do frontend, estrutura de pastas do monorepo e como rodar os testes. O que estiver implícito, torne explícito agora — é mais barato do que o setup parar depois.
+Antes de fechar, confira que o documento declara **explicitamente** as quatro coisas que o Passo 0 do `/utf-setup` exige: framework do frontend (versão e padrões), a fonte de dados de cada fase, a estrutura de pastas do projeto e como rodar os testes. O que estiver implícito, torne explícito agora — é mais barato do que o setup parar depois.
 
 ## Passo 3 — Conferência e portão
 
@@ -48,5 +48,5 @@ Antes de fechar, confira que o documento declara **explicitamente** as quatro co
 
 - Escolher stack pelo aluno, ou aceitar dependência "porque a IA conhece".
 - Copiar regra de negócio do PRD para cá — aqui é o *onde mora*, não o *o quê*.
-- DTOs de endpoints específicos, rotas de tela, fluxos de uma história — isso é spec.
+- Contratos de telas específicas, fluxos de uma história — isso é spec.
 - Gerar código ou rodar o setup — o setup tem comando próprio.

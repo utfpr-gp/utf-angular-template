@@ -50,8 +50,8 @@ e assume a responsabilidade técnica. A IA apenas traduz as suas decisões em si
   autenticação, banco e API. A escolha do BaaS e do framework CSS é da equipe, mas é
   única e definitiva para o semestre — trocar no meio invalida o `architecture.md` e
   todas as specs que apontam para ele.
-- Alguns exemplos deste guia vêm de um projeto full-stack (NestJS, pagamento) — o
-  **método** é o mesmo; traduza o exemplo para o seu app Angular + BaaS.
+> Os exemplos deste guia usam o tema de **caronas** (2026/2). O método não muda com o
+> tema: troque "carona" pelo objeto do seu semestre e tudo continua valendo.
 
 O método não muda com a escolha. O que muda são os nomes das camadas, e é justamente
 por isso que existe o `docs/architecture.md`: para escrever, uma vez, quais são elas.
@@ -102,7 +102,7 @@ fecha:
 | 5 | Scaffold (o app Angular, verde) | `/utf-setup` | Ratificações + o primeiro PR (`manutencao`) |
 
 A etapa 3 vem **antes** da arquitetura de propósito: um nó vermelho quase sempre revela
-um estado que faltava (*"o pedido fica AGUARDANDO para sempre?"*), e estado é matéria do
+um estado que faltava (*"a solicitação fica PENDENTE para sempre?"*), e estado é matéria do
 `architecture.md`. Desenhar a jornada depois é descobrir o estado com o documento já
 fechado.
 
@@ -145,10 +145,10 @@ código:
 
 | Termo do negócio | Entidade no código | Atributos principais |
 | --- | --- | --- |
-| Pedido | `Order` | `id, cliente, itens, total, status` |
-| Pagamento | `Payment` | `id, pedido, valor, status, referenciaExterna` |
+| Carona | `Ride` | `id, driver, origin, destination, departsAt, seats, status` |
+| Solicitação | `RideRequest` | `id, ride, passenger, status` |
 
-Sem isso, a IA cria `Pedido`, `Order` e `ServiceRequest` na mesma base, em semanas
+Sem isso, a IA cria `Carona`, `Ride` e `Trip` na mesma base, em semanas
 diferentes, e cada um parece razoável no contexto em que nasceu.
 
 **Atores e permissões.** Quem usa o sistema e o que cada perfil pode fazer.
@@ -178,50 +178,45 @@ Contém:
   bibliotecas no `package.json`.*
 - **Estrutura do projeto.** Que pasta guarda o quê dentro do app Angular —
   `core/`, `shared/`, `features/` — e a regra de dependência entre elas.
-- **Diagrama de contexto (opcional).** Quem é o front, quem é o back, banco e
-  integrações externas. Trata o seu sistema como caixa preta e ilustra quem o usa e
-  com que sistemas externos ele conversa (Google OAuth, gateway de pagamento, sistema
-  da UTFPR).
-- **Modelo de dados (diagrama ER).** As tabelas principais e seus relacionamentos.
+- **Diagrama de contexto (opcional).** Trata o seu sistema como caixa preta e ilustra
+  quem o usa e com que serviços externos ele conversa (o BaaS, autenticação social,
+  mapas, sistema da UTFPR).
+- **Modelo de dados (diagrama ER).** As tabelas do BaaS e seus relacionamentos — o
+  mesmo diagrama que vai renderizado no README.
 - **Glossário técnico (PT-BR → EN).** A ponte que garante que o PRD em português
   ("Aplicação") vire a entidade correta em inglês no código e no banco (`apps`),
   matando o código espanglês.
-- **Padrões arquiteturais.** O paradigma adotado e como as camadas se comunicam.
-- **Padrão de comunicação (API).** O formato global inegociável de entrada e saída.
+- **Padrões arquiteturais.** Como as camadas do app se comunicam.
+- **Padrão de acesso a dados.** Como a aplicação conversa com a fonte de dados.
 - **Segurança e autenticação.** A estratégia global de defesa.
 
-#### O que decidir no backend NestJS
+#### As cinco decisões que o documento precisa responder
 
-Estas quatro decisões precisam estar escritas, com essas palavras, porque são as que o
+Estas decisões precisam estar escritas, com essas palavras, porque são as que o
 agente mais inventa sozinho quando o documento é omisso:
 
 | Decisão | Pergunta que o documento responde | Exemplo de resposta escrita |
 | --- | --- | --- |
-| **Camadas** | O Controller pode tocar o banco? | "O Controller só fala com o Service. O Service é o único que fala com o Repository. Controller nunca injeta Repository." |
-| **Entrada** | Onde a validação acontece? | "Todo corpo de requisição é um DTO com `class-validator`. `ValidationPipe` global com `whitelist: true`." |
-| **Saída** | Qual o envelope de sucesso e de erro? | "Sucesso: `{ data: ... }`. Erro: `{ statusCode, message }`, sempre via `HttpException`." |
-| **Autenticação** | Como o sistema sabe quem é o usuário? | "JWT no header `Authorization`. Rotas protegidas por `@UseGuards(JwtAuthGuard)`. O front guarda o token em [onde]." |
+| **Camada de dados** | O componente pode chamar o `HttpClient`? | "Nenhum componente injeta `HttpClient`. Todo acesso a dados passa por um Service em `core/data/`, injetado com `inject()`. O componente pede dados e não sabe que HTTP existe." |
+| **Estado** | Onde mora o estado, e como a tela reage a ele? | "Estado em `signal()` dentro do Service; derivações em `computed()`; a tela lê o signal. Nada de `BehaviorSubject` exposto ao componente, e `effect()` só para efeito colateral de verdade." |
+| **Fronteira assíncrona** | Onde o RxJS termina e o signal começa? | "O Service converte a resposta com `toSignal()`; o componente recebe signal, nunca Observable cru." |
+| **Autenticação** | Como o app sabe quem é o usuário? | "Sessão do BaaS; o token entra em toda requisição por um *functional interceptor*, e as rotas privadas usam um *functional guard*. Nenhum componente lê o token direto." |
+| **Erro** | Quem trata falha de rede, e o que a tela mostra? | "Interceptor trata o erro de forma centralizada; o Service expõe um signal de estado (`carregando`/`erro`) e a tela decide o que exibir com `@if`." |
 
-#### O que decidir no frontend, independente do framework
-
-A regra que mais importa é a mesma nos três:
-
-> **Componente não fala com o servidor.** Existe uma camada de serviço/repositório
-> entre a tela e a API. O componente pede dados a ela e não sabe que HTTP existe.
-
-Escreva no `architecture.md` como essa camada se chama no seu framework (`service`
-injetável no Angular, hook ou módulo de API no React, composable ou store no Vue) e
-onde ela mora na árvore de pastas. Sem isso, metade das telas vai chamar `fetch`
-direto e a outra metade não.
+> 📌 **A decisão da camada de dados é a que você vai *sentir*.** Nesta disciplina o
+> MVP consome um json-server e a Entrega 3 migra para o BaaS: se o acesso a dados
+> estiver isolado nos Services, a migração reescreve alguns arquivos e **nenhuma
+> tela**. Se `HttpClient` estiver espalhado pelos componentes, a E3 vira caça ao
+> tesouro. As outras decisões são organização; esta é dinheiro no banco.
 
 #### O que o documento NÃO contém (anti-padrões)
 
 - 🚫 **Versões exatas de bibliotecas.** Versão escrita em prosa envelhece em silêncio.
-  O documento continua afirmando "NestJS 10" meses depois de o projeto ter atualizado
+  O documento continua afirmando "Angular 20" meses depois de o projeto ter atualizado
   no `package.json`, e algum subagente confia no texto, gerando código legado.
 - 🚫 **Detalhes de funcionalidades.** Diagramas de sequência específicos, máquinas de
-  estado isoladas e DTOs de endpoints. Tudo isso é criado sob demanda no `spec.md` de
-  cada história. Colocar aqui polui o documento e estoura a janela de contexto da IA
+  estado isoladas e o contrato de uma tela. Tudo isso é criado sob demanda no `spec.md`
+  de cada história. Colocar aqui polui o documento e estoura a janela de contexto da IA
   à toa.
 
 ### 3.4 O protótipo é a jornada
@@ -266,7 +261,7 @@ confiar.
 | `docs/checklist.md` | **o que a disciplina exige** — regras, IDs e entregas |
 | `specs/` | **o que está sendo construído agora** — uma pasta por história |
 
-Se você precisa saber o status do pedido, existe **um** lugar: a máquina de estados no
+Se você precisa saber o status da solicitação, existe **um** lugar: a máquina de estados no
 `architecture.md`. Quem precisar dela em outro documento aponta para lá, não copia.
 
 ### 3.7 O portão da Fase 0
@@ -287,9 +282,9 @@ dia em que o PR é mesclado.
 
 ### 3.8 Entre a Fase 0 e a primeira Issue: o setup
 
-Existe um trabalho que não é documento nem história: gerar o monorepo. As pastas de
-app pelos geradores oficiais da stack, os scripts da raiz, o template de PR, o Portão
-de Entendimento e o índice de specs.
+Existe um trabalho que não é documento nem história: gerar o projeto. O app pelo
+gerador oficial do Angular, os scripts, a fonte de dados do MVP, o PWA, a proteção das
+branches e o índice de specs.
 
 Ele **não tem spec**, e o motivo é o teste de uma linha do §4: ninguém demonstra um
 scaffold para alguém que não programa. Logo, não é história — é a primeira **Task de
@@ -315,7 +310,7 @@ Empacote esse trabalho num comando (`/utf-setup`), com três regras:
 
 ## 4. O ciclo completo
 
-Vamos usar um exemplo real que você vai enfrentar: *"o usuário precisa pagar o pedido"*.
+Vamos usar um exemplo real que você vai enfrentar: *"o passageiro precisa solicitar uma vaga numa carona"*.
 
 ### Passo 1 — Da ideia para a Issue
 
@@ -325,8 +320,8 @@ transporte é o `/utf-backlog` (Fase 0, etapa 2): uma Issue por story `Ready`,
 com a lista aprovada por você antes de existir — e ele pode rodar de novo a
 cada leva de stories promovidas. Bugs e Tasks nascem à mão, direto no GitHub.
 
-> **Issue #27** — Como cliente, quero pagar meu pedido com cartão ou Pix, para
-> concluir a compra.
+> **Issue #27** — Como passageiro, quero solicitar uma vaga numa carona, para
+> garantir minha ida ao câmpus.
 
 #### PRD vs. GitHub: onde as coisas nascem
 
@@ -336,18 +331,18 @@ criar uma Issue, você escolhe um **Type** — e o tipo dita como você usa o PR
 
 **🔵 Feature (histórias de usuário)**
 
-- **O que é:** um pedido, ideia ou nova funcionalidade (pagar com Pix, fazer login).
+- **O que é:** um pedido, ideia ou nova funcionalidade (solicitar vaga, fazer login).
 - **Onde nasce:** **sempre** no `docs/prd.md`. É lá que a história vive completa, com
   critérios de aceitação e status (⚪ Draft, 🟡 Ready, 🟢 Live).
 - **Como usar no GitHub:** a Issue é apenas um apontador. Título (*Implementar US05 —
-  Pagamento*) e, na descrição, o link para a história no `docs/prd.md`. **Nunca
+  Solicitar vaga*) e, na descrição, o link para a história no `docs/prd.md`. **Nunca
   duplique regras de negócio na Issue.**
 - **Exige `spec.md`?** Sim. O ciclo completo é obrigatório.
 
 **🔴 Bug**
 
 - **O que é:** um problema ou comportamento inesperado (botão desalinhado no mobile,
-  erro 500 ao enviar PDF).
+  lista que não atualiza depois de salvar).
 - **Onde nasce:** direto no GitHub. O PRD já diz como o sistema deveria funcionar; o
   bug é apenas o desvio. Não suje o PRD com logs de erro.
 - **Como usar:** descreva o erro, cole logs e prints. Use os comentários da Issue para
@@ -357,10 +352,10 @@ criar uma Issue, você escolhe um **Type** — e o tipo dita como você usa o PR
 **🟡 Task (tarefas técnicas / dívida técnica)**
 
 - **O que é:** um pedaço de trabalho que não muda o comportamento do produto para o
-  usuário (atualizar o NestJS, refatorar um módulo, remover um pedido fixo).
+  usuário (atualizar o Angular, refatorar um componente, remover um dado fixo).
 - **Onde nasce:** direto no GitHub.
 - **Como usar:** se você pausou uma história para seguir com um substituto, crie
-  imediatamente uma Task (*Remover pedido fixo da Issue #27*) para pagar essa dívida.
+  imediatamente uma Task (*Remover dado fixo da Issue #27*) para pagar essa dívida.
 - **Exige `spec.md`?** Não. Abra o PR com a etiqueta `manutencao`.
 
 > **💡 Dica de ouro:** o `prd.md` guarda regras; a Issue no GitHub guarda a execução, as
@@ -371,8 +366,8 @@ criar uma Issue, você escolhe um **Type** — e o tipo dita como você usa o PR
 Aqui começa o trabalho com a IA, e **este é o passo mais importante da disciplina**.
 
 Você conversa com o agente sobre a história. Um bom agente vai fazer perguntas antes de
-escrever qualquer coisa: o que acontece se o pagamento for recusado? O pedido pode ser
-pago duas vezes? O preço vem de onde?
+escrever qualquer coisa: o que acontece se a carona lotar enquanto a pessoa preenche?
+Ela pode solicitar duas vezes a mesma carona? O motorista precisa aprovar?
 
 Dessa conversa sai o `spec.md`, em `specs/<numero-da-issue>-<slug>/`, contendo:
 
@@ -396,15 +391,15 @@ status: rascunho   # rascunho | aprovada
 > ✅ **Teste do critério de aceite:** se você não consegue imaginar um teste automatizado
 > que prove aquele critério, ele está vago demais.
 >
-> Ruim: *"o pagamento deve funcionar bem"*
-> Bom: *"quando o gateway notificar pagamento aprovado, o pedido muda de AGUARDANDO
-> para PAGO"*
+> Ruim: *"a solicitação deve funcionar bem"*
+> Bom: *"quando o motorista aceitar a solicitação, ela muda de PENDENTE para
+> CONFIRMADA e a vaga sai do total disponível"*
 
 > ⚠️ **Todo caso de abandono também é um critério de aceite.** Não basta descrevê-lo em
 > prosa numa seção à parte: só os critérios de aceite viram teste, e o que não vira
 > teste não é verificado por ninguém. Escreva a seção de abandono para pensar, e depois
-> transforme cada caso numa linha verificável. *"Se o usuário fechar a aba no checkout,
-> o pedido permanece AGUARDANDO e reaparece no painel dele com o botão de retomar"* —
+> transforme cada caso numa linha verificável. *"Se a pessoa fechar a aba antes de
+> confirmar, nenhuma solicitação é criada e a vaga continua disponível"* —
 > isso é testável. *"Tratar o abandono"* não é.
 
 ### Passo 3 — 🚪 Portão: você aprova a spec
@@ -428,8 +423,8 @@ perfeição, uma ideia errada.
 
 ### Passo 4 — Do plano à branch
 
-Aprovada a spec, o agente deriva o `plan.md`: decisões técnicas (entidades, endpoints,
-DTOs, módulos afetados) e as tarefas em ordem.
+Aprovada a spec, o agente deriva o `plan.md`: decisões técnicas (componentes, Services,
+rotas e modelos afetados) e as tarefas em ordem.
 
 **Como saber se uma tarefa tem o tamanho certo.** Não conte minutos — conte o que ela
 prova:
@@ -455,9 +450,9 @@ Aprovado, **crie a branch a partir da `main`** e faça o primeiro commit:
 
 ```bash
 git switch main && git pull
-git switch -c 27-pagamento-do-pedido
-git add specs/027-pagamento-do-pedido/
-git commit -m "spec: pagamento do pedido (#27)"
+git switch -c 27-solicitar-vaga
+git add specs/027-solicitar-vaga/
+git commit -m "spec: solicitar vaga na carona (#27)"
 ```
 
 > **Por que a spec e o plano são o primeiro commit da branch.** Porque é isso que prova
@@ -492,7 +487,7 @@ quem conduz o ciclo é um **orquestrador**, que não implementa e não revisa:
 #### Os pareceres vão para o disco
 
 ```
-specs/027-pagamento-do-pedido/reviews/
+specs/027-solicitar-vaga/reviews/
 ├── tarefa-03-conformidade-r1.md
 ├── tarefa-03-codigo-r1.md
 ├── tarefa-03-decisoes-r1.md      ← sua triagem: aceitos e recusados, com motivo
@@ -617,26 +612,26 @@ não erra por maldade — ele erra porque você mudou o alvo depois de mirar.
 Pense num bolo de camadas. Você pode cortá-lo de dois jeitos:
 
 **Horizontal, por camada.** Você separa a massa do recheio da cobertura. No software:
-*"criar a tabela de orçamentos"*, *"criar o endpoint de aprovação"*, *"criar a tela de
+*"criar o modelo de solicitação"*, *"criar o Service de solicitações"*, *"criar a tela de
 aprovação"*. Cada pedaço é uma camada inteira do sistema, e **nenhum deles sozinho
 permite que alguém faça alguma coisa**. O usuário só ganha valor quando a última fatia
 fica pronta — e até lá não há nada para demonstrar nem para validar.
 
 **Vertical, por valor.** Você corta uma fatia fina que pega massa, recheio e cobertura
-de uma vez. No software: *"aprovar um orçamento"*. Faz menos coisa, mas faz de ponta a
-ponta — banco, API e tela.
+de uma vez. No software: *"solicitar uma vaga"*. Faz menos coisa, mas faz de ponta a
+ponta — dados, Service e tela.
 
 | | Fatiamento horizontal | Fatiamento vertical |
 | --- | --- | --- |
-| Como fica o backlog | #1 tabela, #2 endpoint, #3 tela | #1 aprovar orçamento, #2 recusar com justificativa |
+| Como fica o backlog | #1 modelo, #2 Service, #3 tela | #1 solicitar vaga, #2 cancelar solicitação |
 | Dá para demonstrar cada Issue? | Não | Sim |
 | Quando o usuário vê valor | Só no fim | A cada história |
 | Se o prazo acabar na metade | Nada funciona | Metade funciona de verdade |
 
 #### Situação 1 — a história depende de outra
 
-**O cenário.** O subagente está implementando a tela de aprovação de orçamento e
-descobre que o endpoint da API que processa essa aprovação ainda não existe.
+**O cenário.** O subagente está implementando a tela de solicitação de vaga e descobre
+que o Service que registra a solicitação (e a coleção correspondente) ainda não existe.
 
 **A primeira pergunta não é "como desbloqueio", é "essa dependência deveria existir?"**
 E existe um teste de uma linha para responder:
@@ -650,26 +645,26 @@ E existe um teste de uma linha para responder:
 > naturalmente separar por camada, porque é assim que o código se organiza. E aí o
 > estrago é duplo: além do backlog ficar impossível de demonstrar, **a spec fica sem
 > critério de aceite verificável**. "O endpoint existe" não é algo que alguém consegue
-> confirmar usando o sistema; "quando o gestor aprova, o orçamento muda para APROVADO e
+> confirmar usando o sistema; "quando o motorista aceita, a solicitação muda para CPROVADO e
 > ele recebe o e-mail" é. Fatia horizontal não gera spec ruim por acaso — gera por
 > construção, porque não existe usuário no fim dela.
 
-"Criar endpoint `POST /pedidos/:id/aprovar`" não é algo que um usuário faz. Ninguém
+"Criar o método `accept()` no `RideRequestService`" não é algo que um usuário faz. Ninguém
 demonstra um endpoint para um cliente. Logo, ele **não é uma história e não deveria ser
 uma Issue** — ele é uma *tarefa*, e tarefa vive dentro do `plan.md`.
 
-A correção não é abrir uma Issue para o endpoint. É reescrever a Issue original como
-*"Como gestor, quero aprovar um orçamento"*, com uma spec cobrindo API **e** tela, e um
+A correção não é abrir uma Issue para o Service. É reescrever a Issue original como
+*"Como passageiro, quero solicitar uma vaga"*, com uma spec cobrindo dados **e** tela, e um
 `plan.md` com as duas tarefas na ordem certa. **Uma Issue, uma spec, um PR** — e a
 dependência simplesmente deixa de existir, porque as duas pontas nasceram juntas.
 
 > **A regra por trás disso:** Issue é **história** — alguém consegue fazer alguma coisa.
-> Tarefa é **passo** — e mora no `plan.md`. Endpoint, migration, DTO, componente e
-> tabela são tarefas. Nunca abra Issue para eles.
+> Tarefa é **passo** — e mora no `plan.md`. Service, modelo, interceptor, guard e
+> componente são tarefas. Nunca abra Issue para eles.
 
 **Se a resposta for sim, a dependência é real.**
 
-Exemplo: *"pagar o pedido"* depende de *"criar o pedido"*. As duas são demonstráveis, as
+Exemplo: *"avaliar o motorista"* depende de *"concluir a carona"*. As duas são demonstráveis, as
 duas são histórias legítimas, e nenhum refatiamento faz a segunda caber dentro da
 primeira. Aí você tem duas saídas:
 
@@ -690,15 +685,15 @@ primeira. Aí você tem duas saídas:
 **O que é "seguir com substituto".** É fazer o código funcionar com uma peça de mentira,
 no lugar da peça que ainda não existe.
 
-*Exemplo:* você precisa implementar o pagamento, mas a história "criar pedido" ainda não
-ficou pronta. Em vez de esperar, você escreve um pedido fixo direto no código —
-`{ id: 1, total: 100 }` — e segue. A tela funciona, e você consegue testar o checkout, o
-webhook e a mudança de status. Aprendeu a parte difícil sem depender de ninguém.
+*Exemplo:* você precisa implementar a avaliação, mas a história "concluir a carona" ainda não
+ficou pronta. Em vez de esperar, você escreve uma carona fixa direto no código —
+`{ id: 1, status: 'CONCLUIDA' }` — e segue. A tela funciona, e você consegue testar o
+formulário, a validação e a gravação. Aprendeu a parte difícil sem depender de ninguém.
 
 Isso é legítimo. O problema é o que acontece depois: **o valor fixo continua lá.** Três
-semanas passam, ninguém lembra dele, o projeto vai para o ar e o sistema cobra R$ 100 de
-todo mundo — porque o pedido de mentira nunca foi trocado pelo de verdade. Não é
-hipótese: é o defeito mais comum desse padrão, e ele costuma aparecer no dia da
+semanas passam, ninguém lembra dele, o projeto vai para o ar e **toda avaliação aparece
+ligada à mesma carona** — porque o dado de mentira nunca foi trocado pelo de verdade.
+Não é hipótese: é o defeito mais comum desse padrão, e ele costuma aparecer no dia da
 apresentação.
 
 Por isso o substituto só vale acompanhado de três coisas:
@@ -706,7 +701,7 @@ Por isso o substituto só vale acompanhado de três coisas:
 1. O campo **`Assume que`** na spec, dizendo exatamente o que é mentira
 2. Uma **Issue aberta** cujo único trabalho é trocar a mentira pela verdade
 3. Um **comentário no próprio código** apontando para essa Issue —
-   `// TODO #31: pedido fixo até a Issue #31 ficar pronta`
+   `// TODO #31: carona fixa até a Issue #31 ficar pronta`
 
 **As três são conferidas pelo auditor final, no Passo 6.** É a isso que se chama
 **dívida técnica**: um empréstimo que te deixa andar hoje e que alguém vai ter que pagar
@@ -715,9 +710,9 @@ data da entrega.
 
 #### Situação 2 — a implementação revela um problema novo
 
-**O cenário.** Implementando o fluxo de pagamento, você percebe que a modelagem no banco
-não está preparada para lidar com falha de comunicação com o gateway. Não é o que a spec
-pedia, mas é real, e é estrutural.
+**O cenário.** Implementando a solicitação de vaga, você percebe que a modelagem dos
+dados não impede duas pessoas de ocuparem a última vaga ao mesmo tempo. Não é o que a
+spec pedia, mas é real, e é estrutural.
 
 Aqui a distinção que importa é entre duas coisas que parecem a mesma:
 
@@ -788,9 +783,9 @@ Com quinze pastas em `specs/`, ninguém sabe o que está vivo. Mantenha um
 
 | Issue | Spec | Estado | Observação |
 | --- | --- | --- | --- |
-| #12 | `012-criar-pedido` | implementada | — |
-| #27 | `027-pagamento-do-pedido` | bloqueada | espera #31 |
-| #31 | `031-estado-de-falha-do-gateway` | aberta | descoberta durante #27 |
+| #12 | `012-concluir-carona` | implementada | — |
+| #27 | `027-solicitar-vaga` | bloqueada | espera #31 |
+| #31 | `031-vaga-concorrente` | aberta | descoberta durante #27 |
 
 ---
 
@@ -969,7 +964,7 @@ Não existe arquivo de estado, e não se pergunta ao agente em que rodada ele es
 perde a conta. A contagem **é** a listagem do diretório:
 
 ```bash
-ls specs/027-pagamento-do-pedido/reviews/tarefa-03-*
+ls specs/027-solicitar-vaga/reviews/tarefa-03-*
 ```
 
 Nenhum arquivo → rodada 1. Um par de arquivos `-r1` → você está na rodada 2. Um par
@@ -1028,9 +1023,9 @@ preenchida com pelo menos **400 caracteres** — o que dá, na prática, um par�
 verdade. Uma verificação automática confere isso e reprova o PR se faltar.
 
 É uma regra só, e ela vale para **todos** os PRs, inclusive os de manutenção. Se a
-mudança é pequena, a explicação é curta e específica — *"o `ValidationPipe` estava sem
-`whitelist: true`, então campos extras no body passavam direto para o service; ativei a
-flag e ajustei dois testes que dependiam do comportamento antigo"* já passa dos 400
+mudança é pequena, a explicação é curta e específica — *"o formulário não desabilitava
+o submit enquanto inválido, então dava para enviar solicitação sem data; liguei a
+validação no botão e ajustei dois testes que dependiam do comportamento antigo"* já passa dos 400
 caracteres e diz algo.
 
 A etiqueta `manutencao` **não dispensa a explicação**. Ela decide outra coisa: se o PR
@@ -1103,7 +1098,7 @@ você entendeu; aceitar tudo é sinal contrário.
 Não. A regra é o impacto no produto.
 
 *Precisa de spec* toda mudança que cria um recurso novo, altera uma regra de negócio ou
-conserta um bug de comportamento (exemplo: "o cliente não consegue aprovar o orçamento").
+conserta um bug de comportamento (exemplo: "o passageiro não consegue cancelar a solicitação").
 Essas nascem como Issue no GitHub Projects e o ciclo completo — conversa → spec → plano →
 execução — é obrigatório.
 
