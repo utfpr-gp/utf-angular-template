@@ -1,4 +1,4 @@
-# 🛠️ Architecture / Software Design Document (SSD)
+# 🛠️ Architecture / SSD
 
 **Projeto:** [nome]
 **Versão:** 0.0.0 · esqueleto — preencha via `/utf-architecture`

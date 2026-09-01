@@ -59,15 +59,14 @@ O que é **norma inegociável** deste repositório são os cinco portões humano
 
 ## 🛑 O Portão de Entendimento (Regras de Pull Request)
 
-Se o Pull Request for a primeira vez que você olha o código, o método falhou. Todo PR que altera código em `apps/` passa por uma verificação rígida antes de ser mesclado.
+Se o Pull Request for a primeira vez que você olha o código, o método falhou. Todo PR passa por uma verificação automática antes de ser mesclado, e ela confere **uma regra só**:
 
-**O PR será REPROVADO se:**
+**O PR será REPROVADO se** a descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos **400 caracteres** (não cole o _diff_ nem a saída da IA; explique com suas palavras). Vale para **todos** os PRs, inclusive os de manutenção.
 
-1. Não atualizar nenhum arquivo em `docs/` ou `specs/`.
-2. A descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos 400 caracteres (Não cole o _diff_ nem a saída da IA; explique com suas palavras).
+A documentação anda junto do código, mas quem cobra isso não é o CI: PR de história que muda comportamento atualiza `docs/` e `specs/` no mesmo commit — é o **auditor-final** (antes do PR) e o colega que revisa que conferem.
 
 **Exceção (Manutenção puramente técnica):**
-Se a mudança não afeta o produto (ex: atualizar versão, refatorar código, arrumar formatação), você não precisa criar um `spec.md`. Abra o PR direto e aplique a etiqueta `manutencao`.
+Se a mudança não afeta o produto (ex: atualizar versão, refatorar código, arrumar formatação), você não precisa criar um `spec.md`. Abra o PR direto e aplique a etiqueta `manutencao` — a explicação de 400 caracteres continua valendo.
 
 ---
 
