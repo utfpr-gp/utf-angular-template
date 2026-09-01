@@ -14,12 +14,15 @@ que foi decidida. O que não estiver escrito lá, você pergunta; não escolhe.
 
 ## Passo 0 — Pré-condições (PARE se qualquer uma falhar)
 
-1. `docs/prd.md` e `docs/architecture.md` existem e declaram: o framework do backend,
-   o framework do frontend, a fonte de dados, a estrutura de pastas e como rodar os testes.
+1. `docs/prd.md` e `docs/architecture.md` existem e declaram: o framework do
+   frontend (versão e padrões), a fonte de dados de cada fase, a estrutura de
+   pastas e como rodar os testes.
    Se algum desses quatro estiver ausente ou ambíguo, **PARE** e diga o que falta —
    setup com stack adivinhada é retrabalho garantido.
 2. As pastas de app previstas no `architecture.md` (ex.: `apps/web`)
-   **não existem** ou estão vazias. Se já existirem com conteúdo, **PARE**: o setup
+   **não existem** ou estão vazias — o `.gitkeep` de `apps/web/` e o `README.md`
+   de reserva de `apps/api/`, que vêm do template, não contam como conteúdo.
+   Se já existirem com conteúdo de verdade, **PARE**: o setup
    roda uma vez, e rodá-lo de novo por cima é destrutivo.
 3. Você está na `develop`, limpa e atualizada (se a `develop` ainda não existe, crie-a a partir da `main` e publique: `git switch -c develop && git push -u origin develop` — o Gitflow da ficha exige as duas).
 4. O `gh` está autenticado (`gh auth status`) **ou** o MCP do GitHub está
@@ -42,9 +45,10 @@ Gere o app com o gerador oficial da stack declarada no `architecture.md`
 dentro da estrutura de pastas que o documento descreve.
 
 - **A casca do monorepo é só estrutura.** Se o documento prevê `apps/web` e
-  `apps/api`, gere o app em `apps/web` e **crie `apps/api/` vazia**, com um
-  `README.md` de uma linha dizendo que ela está reservada para uma API própria,
-  se um dia existir. **Não gere backend nenhum** — nem scaffold, nem
+  `apps/api`, gere o app em `apps/web` (o `.gitkeep` que veio do template pode
+  ser removido junto) e **confira `apps/api/`**: ela vem do template com um
+  `README.md` de uma linha dizendo que está reservada para uma API própria,
+  se um dia existir — crie-a assim se faltar. **Não gere backend nenhum** — nem scaffold, nem
   `package.json`, nem dependência. Pasta reservada é lugar guardado; scaffold
   morto é código que ninguém mantém e que o agente lê como se existisse.
 
@@ -114,7 +118,7 @@ do guia é exatamente como o Portão nasce parafraseado e sem efeito.
    ```
    gh api -X PUT repos/{owner}/{repo}/branches/main/protection --input - <<'JSON'
    {
-     "required_status_checks": null,
+     "required_status_checks": { "strict": false, "checks": [ { "context": "explicacao" } ] },
      "enforce_admins": true,
      "required_pull_request_reviews": { "required_approving_review_count": 1 },
      "restrictions": null,
@@ -127,7 +131,10 @@ do guia é exatamente como o Portão nasce parafraseado e sem efeito.
    `required_approving_review_count: 1` exige **Pull Request aprovado por um
    colega** — nesta disciplina o projeto é em equipe (2–3), e a revisão entre
    colegas com resolução de conflitos é cobrada pelo ID27: quem abre a story
-   não mergeia o próprio PR. `enforce_admins: true` faz a regra valer também para o
+   não mergeia o próprio PR. O bloco `required_status_checks` exige que o check
+   `explicacao` (o job do Portão de Entendimento) **passe antes do merge** — sem
+   ele, o Portão reprovaria mas não bloquearia nada.
+   `enforce_admins: true` faz a regra valer também para o
    dono do repositório: sem isso, o aluno é justamente quem fura a regra sem
    perceber. Para destravar uma emergência ele desliga a proteção
    conscientemente, e isso fica registrado no log do repositório.

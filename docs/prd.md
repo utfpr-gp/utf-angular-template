@@ -37,7 +37,8 @@
 
 ## 👤 3. Atores e Permissões
 
-> ⚠️ A coluna **"Não pode"** vira Guard e controle de role na API.
+> ⚠️ A coluna **"Não pode"** vira Guard na rota e regra de acesso no BaaS
+> (ex.: RLS no Supabase).
 
 | Ator | Quem é | Pode | Não pode |
 | :--- | :----- | :--- | :------- |
@@ -53,7 +54,9 @@
 > entram se sobrar tempo, mas ficam documentadas — nada se perde; o
 > `Won't Have` vira item da seção *Fora de Escopo* — e **Tamanho (esforço)** —
 > `S` cabe numa sessão, `M` vira algumas tarefas no plano, `L` pede divisão.
-> Toda story nasce `Draft` — **só você promove a `Ready`**.
+> O status percorre `Draft` → `Ready` → `Live`: toda story nasce `Draft` —
+> **só você promove a `Ready`** — e vira `Live` quando o PR dela é mesclado
+> (o auditor final cobra essa atualização; o commit é seu).
 
 ### US01 — [título] · `Must|Should|Could Have` · `S|M|L` · Status: `Draft`
 

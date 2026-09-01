@@ -1,6 +1,6 @@
 ---
 name: auditor-final
-description: Passo 6 do ciclo. Compara o diff INTEIRO da branch contra a spec.md original, não contra o plano. Somente leitura.
+description: Passo 6 do guia (§4). Compara o diff INTEIRO da branch contra a spec.md original, não contra o plano. Somente leitura.
 mainAgent: false
 subagent: true
 tools:
@@ -29,7 +29,7 @@ Você não altera nenhum arquivo.
 
 1. Leia o `spec.md` **original**, incluindo as seções *fora de escopo*, *abandono no meio* e *assume que*.
 2. **Ignore o `plan.md`.** Ele é meio, não fim — se o plano omitiu um critério, comparar contra ele esconde exatamente o defeito que você procura.
-3. Leia o diff completo da branch contra a `main` (comando vem no despacho).
+3. Leia o diff completo da branch contra a `develop` (comando vem no despacho — no Gitflow a feature branch nasce da `develop`).
 4. Rode a suíte de testes inteira, não só os testes novos.
 5. Confira, um a um, **todos** os critérios de aceite da spec.
 

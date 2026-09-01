@@ -13,7 +13,8 @@ Sempre que o usuário pedir para trabalhar em uma Issue (Feature), você atuará
 **Passo 1: Entendimento e Brainstorming**
 - Leia a Issue apontada e busque no `docs/prd.md` os critérios e o Glossário Ubíquo.
 - Faça perguntas ao usuário de forma proativa. Questione sobre casos de borda, caminhos tristes (ex: falhas de rede, dados inválidos) e como validar os critérios de aceite.
-- Após sanar as dúvidas, redija o documento e salve no caminho `specs/<numero-da-issue>-<slug>/spec.md`, com este frontmatter:
+- Após sanar as dúvidas, **crie a branch da história a partir da `develop`** (`git switch develop && git pull && git switch -c <numero-da-issue>-<slug>`). Ela nasce agora, antes da aprovação, porque no Gitflow `main` e `develop` são bloqueadas — e o commit de aprovação do usuário precisa de um lugar para viver.
+- Redija o documento e salve no caminho `specs/<numero-da-issue>-<slug>/spec.md`, commitando o rascunho na branch, com este frontmatter:
 
 ```yaml
 ---
@@ -22,17 +23,17 @@ status: rascunho   # rascunho | aprovada
 ---
 ```
 
-- **PAUSA OBRIGATÓRIA:** Pare de gerar respostas e exija que o usuário leia e aprove o `spec.md`. Ofereça `/utf-tutor spec` para ele entender as consequências técnicas de cada decisão antes de aprovar. A aprovação é o **próprio usuário** trocar `status: rascunho` por `status: aprovada` e commitar essa linha — assim a aprovação fica no `git log`, com o nome dele. Você não altera esse campo em hipótese nenhuma.
+- **PAUSA OBRIGATÓRIA:** Pare de gerar respostas e exija que o usuário leia e aprove o `spec.md`. Ofereça `/utf-tutor spec` para ele entender as consequências técnicas de cada decisão antes de aprovar. A aprovação é o **próprio usuário** trocar `status: rascunho` por `status: aprovada` e commitar essa linha **na branch da história** — assim a aprovação fica no `git log`, com o nome dele. Você não altera esse campo em hipótese nenhuma.
 
 **Passo 2: Planejamento**
-- Com o `spec.md` aprovado, quebre o trabalho em tarefas curtas e encadeadas (2 a 5 minutos cada).
+- Com o `spec.md` aprovado, quebre o trabalho em tarefas curtas e encadeadas — cada uma prova **um critério de aceite inteiro**, ou é um passo técnico que sozinho não prova nada mas destrava o próximo.
 - Cada tarefa deve prever a criação de testes primeiro (TDD).
 - Se o plano passar de **10 tarefas**, pare: a história é grande demais. Proponha dividi-la em duas Issues antes de continuar.
 - Salve o resultado no caminho `specs/<numero-da-issue>-<slug>/plan.md`.
-- **PAUSA OBRIGATÓRIA:** Peça a aprovação do usuário para o plano.
+- **PAUSA OBRIGATÓRIA:** Peça a aprovação do usuário para o plano. Com o OK, commite o `plan.md` na branch da história.
 
 **Passo 3: Execução (uma tarefa por vez)**
-- Crie a branch da Issue a partir da `develop` (Gitflow — ver a ficha).
+- A branch da história existe desde o Passo 1. Antes do primeiro código, confira que o `spec.md` (aprovado) e o `plan.md` estão commitados nela — é esse `git log` que prova que a especificação veio antes do código.
 - Execute **uma tarefa por vez** através do fluxo `ciclo-tarefa` (`.agents/workflows/ciclo-tarefa.md`), que despacha o subagente **implementador** com contexto limpo e, depois dele, dois revisores distintos e somente-leitura: **revisor-conformidade** (diff × critérios de aceite da `spec.md`) e **revisor-codigo** (diff × `docs/architecture.md`).
 - **Você nunca revisa o código que você mesmo despachou.** Revisor é sempre outro agente, sem permissão de escrita. Auto-auditoria não conta como revisão: quem escreveu carrega os mesmos pontos cegos.
 - Ao fim de cada tarefa, pare e devolva o controle ao usuário. Ele pede a próxima.

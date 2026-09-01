@@ -24,7 +24,7 @@
 | Fonte | Onde configurar | Serve para |
 | :---- | :-------------- | :--------- |
 | Constituição da IA | `.agents/rules/utf-rules.md` (via `CLAUDE.md`) | Regras inegociáveis: fases do SDD, 2 rodadas, revisores distintos, Gitflow |
-| Fluxos da IA | `.agents/workflows/` | PRD, flows, architecture, setup, ciclo por Issue, ciclo por tarefa, tutor |
+| Fluxos da IA | `.agents/workflows/` | PRD, backlog, design, architecture, setup, ciclo por Issue, ciclo por tarefa, tutor |
 | Agentes (subagentes) | `.agents/agents/` (cascas em `.claude/`, `.cursor/`, `.opencode/`) | Implementador, revisores, auditor final e tutor |
 | Ficha da disciplina | `docs/checklist.md` | Regras do projeto, IDs e entregas |
 | Protótipo (Stitch/Figma) | [link público] | Telas, jornadas e hierarquia visual (ID1) |

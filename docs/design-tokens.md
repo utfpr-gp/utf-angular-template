@@ -49,6 +49,30 @@ Uma progressão só, usada em tudo.
 | desabilitado | |
 | carregando | |
 
+## Breakpoints (Mobile-First)
+
+O design nasce para a menor tela e cresce (ID2). Toda tela do protótipo tem
+versão mobile antes da versão desktop.
+
+| Token | Largura mínima | Vale para |
+| --- | --- | --- |
+| `sm` | | |
+| `md` | | |
+| `lg` | | |
+
+## Identidade PWA
+
+Os valores abaixo alimentam o `manifest.webmanifest` no `/utf-setup` (ID3).
+
+| Campo | Valor |
+| --- | --- |
+| Nome curto (`short_name`) | |
+| Cor de tema (`theme_color`) | |
+| Cor de fundo (`background_color`) | |
+| Ícone | |
+| Modo de exibição (`display`) | `standalone` |
+| Comportamento visual offline | [o que a pessoa vê sem rede] |
+
 ## Protótipo
 
 **Link:** [Figma / Stitch / equivalente]

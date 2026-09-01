@@ -33,8 +33,8 @@ Caminho do `spec.md`, número e texto da tarefa, e o comando de diff vêm no des
 
 ## O que reprova
 
-- violação de camada declarada no `architecture.md` (ex.: controller acessando o banco direto)
-- resposta de API fora do formato global (envelope, `statusCode`, `message`)
+- violação de camada declarada no `architecture.md` (ex.: componente chamando o `HttpClient` direto, sem passar pelo Service)
+- sintaxe fora dos padrões declarados no `architecture.md` (ex.: `*ngIf` no lugar de `@if`, injeção por construtor no lugar de `inject()`, estado fora de signals)
 - segredo, chave ou URL de ambiente escrita no código
 - tratamento de erro que engole a falha silenciosamente
 - abstração criada para um caso só — indireção sem ganho
