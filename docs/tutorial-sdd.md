@@ -20,7 +20,7 @@ Quatro comandos, nesta ordem, cada um fechando num portão seu:
 | --- | --- | --- | --- |
 | 1 | `/utf-prd` | `docs/prd.md` — entrevista de requisitos | Lê o documento inteiro, ajusta e **commita**; leva o tema ao professor |
 | 2 | `/utf-backlog` | Issues (uma por story `Ready`) + Kanban no Projects | **Aprova a lista** antes de as Issues serem criadas |
-| 3 | `/utf-flows` | `docs/user-flows.md` e `docs/design-tokens.md` — jornadas e tokens | Decide o que acontece em cada ponto de desistência e **commita** |
+| 3 | `/utf-design` | `docs/design-tokens.md` + protótipo navegável — tokens, Mobile-First, identidade PWA | Decide o que acontece em cada ponto de desistência (vai para o PRD) e **commita** |
 | 4 | `/utf-architecture` | `docs/architecture.md` — entrevista técnica | Lê e **commita** |
 | 5 | `/utf-setup` | o app Angular nascendo com testes verdes | Ratifica as decisões relatadas e abre o **1º PR** (`manutencao`) |
 
@@ -111,7 +111,7 @@ palavras, lista os apontamentos aceitos e recusados (saem dos arquivos
 | --- | --- |
 | `/utf-prd` | Fase 0, etapa 1 — a entrevista que gera o `docs/prd.md` |
 | `/utf-backlog` | Fase 0, etapa 2 — PRD aprovado vira Issues + Kanban (e roda de novo a cada leva de stories `Ready`) |
-| `/utf-flows` | Fase 0, etapa 3 — desenha as jornadas e os tokens de design |
+| `/utf-design` | Fase 0, etapa 3 — framework CSS, tokens, protótipo, Mobile-First e PWA |
 | `/utf-architecture` | Fase 0, etapa 4 — a entrevista que gera o `docs/architecture.md` |
 | `/utf-setup` | Fase 0, etapa 5 — gera o scaffold do projeto |
 | `/utf-issue <n>` | Uma vez, para iniciar o ciclo da Issue (spec → plano) |

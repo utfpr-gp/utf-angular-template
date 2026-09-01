@@ -45,17 +45,18 @@
   fonte de estado, `model()` para two-way, `effect()` para efeitos colaterais,
   `input()`/`output()`, `inject()`, Pipes para formatação.
 - **Framework CSS:** [Tailwind, PrimeNG, …] (ID5)
-- **BaaS:** [Supabase, PocketBase, …] — dados, autenticação (JWT) e CRUD (IDs 21–22)
+- **Dados (em duas fases):** **json-server** no MVP (E2) → **[Supabase, PocketBase, …]** na E3, com autenticação (JWT) e CRUD reais (IDs 21–22). A troca atinge só os Services (§2.1).
 - **PWA:** `manifest.webmanifest` — ícones, cores de tema, splash, standalone, offline (ID3)
 - **Testes:** [ferramenta do gerador] + comandos exatos de suíte e lint (ID33)
 
-### 🌐 2.1. Integração com o BaaS — regras estruturais
+### 🌐 2.1. Camada de dados — regras estruturais
 
 > Declaradas uma a uma na entrevista, percorrendo os IDs da ficha.
 
-- **Componente não fala com o servidor:** todo acesso ao BaaS passa por
+- **Componente não fala com o servidor:** todo acesso a dados passa por
   **Services** injetados via `inject()` (ID15) — mudança de contrato mexe só
-  neles, nunca nas telas.
+  neles, nunca nas telas. **É esta regra que paga a migração da E3:** trocar o
+  json-server pelo BaaS reescreve os Services, e nenhuma tela.
 - **Autenticação e sessão (JWT):** [fluxo com o serviço de identidade do BaaS — ID21]
 - **Interceptors funcionais:** token injetado globalmente + tratamento
   centralizado de erros (ID23).
@@ -73,7 +74,7 @@
 ├── .agents/               # constituição, workflows e prompts dos agentes (§1)
 ├── CLAUDE.md / AGENTS.md  # cascas por ferramenta (.claude/, .cursor/, .opencode/)
 ├── README.md              # a vitrine, na estrutura exigida pela ficha
-├── docs/                  # prd.md, este arquivo, user-flows.md, design-tokens.md, checklist.md e guias
+├── docs/                  # prd.md, este arquivo, design-tokens.md, checklist.md e guias
 ├── specs/                 # uma pasta por história implementada
 └── src/                   # o app Angular ([preencher no /utf-setup])
 ```
@@ -122,10 +123,11 @@ erDiagram
 > design — a segurança vem das regras de acesso do BaaS, ex.: RLS no Supabase);
 > **service keys e segredos nunca entram no repositório**.
 
-| Ambiente | App roda em | BaaS |
+| Fase | App roda em | Dados |
 | :--- | :--- | :--- |
-| **Local** | `ng serve` | [projeto de dev] |
-| **Produção** | [Vercel/Render] | [projeto de produção] |
+| **Local (E2/MVP)** | `ng serve` | json-server (`db.json` local) |
+| **Local (E3)** | `ng serve` | [BaaS — projeto de dev] |
+| **Produção (E3)** | [Vercel/Render] | [BaaS — projeto de produção] |
 
 ---
 
