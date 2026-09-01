@@ -15,10 +15,10 @@ que foi decidida. O que não estiver escrito lá, você pergunta; não escolhe.
 ## Passo 0 — Pré-condições (PARE se qualquer uma falhar)
 
 1. `docs/prd.md` e `docs/architecture.md` existem e declaram: o framework do backend,
-   o framework do frontend, a estrutura de pastas do monorepo e como rodar os testes.
+   o framework do frontend, a fonte de dados, a estrutura de pastas e como rodar os testes.
    Se algum desses quatro estiver ausente ou ambíguo, **PARE** e diga o que falta —
    setup com stack adivinhada é retrabalho garantido.
-2. As pastas de app previstas no `architecture.md` (ex.: `apps/web`, `apps/api`)
+2. As pastas de app previstas no `architecture.md` (ex.: `apps/web`)
    **não existem** ou estão vazias. Se já existirem com conteúdo, **PARE**: o setup
    roda uma vez, e rodá-lo de novo por cima é destrutivo.
 3. Você está na `develop`, limpa e atualizada (se a `develop` ainda não existe, crie-a a partir da `main` e publique: `git switch -c develop && git push -u origin develop` — o Gitflow da ficha exige as duas).
@@ -35,11 +35,18 @@ git switch -c setup-projeto
 
 Nenhum arquivo é criado antes da branch existir. No Gitflow, `main` e `develop` são bloqueadas — a branch do setup nasce da `develop` e volta para ela por PR.
 
-## Passo 2 — Os apps, pelos geradores oficiais
+## Passo 2 — O app, pelo gerador oficial
 
-Gere cada app com o gerador oficial da stack declarada no `architecture.md`
-(ex.: `@nestjs/cli` para NestJS, `ng new` para Angular, `create-vite` para React/Vue),
+Gere o app com o gerador oficial da stack declarada no `architecture.md`
+(`ng new` para Angular, mais `ng add` para o que o documento declarar — PWA, framework CSS),
 dentro da estrutura de pastas que o documento descreve.
+
+- **A casca do monorepo é só estrutura.** Se o documento prevê `apps/web` e
+  `apps/api`, gere o app em `apps/web` e **crie `apps/api/` vazia**, com um
+  `README.md` de uma linha dizendo que ela está reservada para uma API própria,
+  se um dia existir. **Não gere backend nenhum** — nem scaffold, nem
+  `package.json`, nem dependência. Pasta reservada é lugar guardado; scaffold
+  morto é código que ninguém mantém e que o agente lê como se existisse.
 
 - **Antes de rodar, confirme na documentação atual** (MCP Context7, se
   disponível) a versão corrente de cada CLI e sua compatibilidade com o Node
@@ -57,8 +64,7 @@ dentro da estrutura de pastas que o documento descreve.
 1. `.gitignore` da raiz cobrindo `node_modules/`, artefatos de build (`dist/`,
    `build/`, `.angular/`, `coverage/`) e `.env` — **antes do primeiro
    `git add`**. Confira o que os geradores deixaram: com `--skip-git`, alguns
-   (ex.: NestJS) não criam `.gitignore` próprio — não é esquecimento, o da
-   raiz cobre todos os apps. Valide com `git status --short`: se aparecerem
+   não criam `.gitignore` próprio — não é esquecimento, o da raiz cobre o projeto. Valide com `git status --short`: se aparecerem
    milhares de arquivos, o ignore não cobriu algo. (A IDE mostrar uma
    avalanche de untracked **entre** a geração e este passo é normal — ela
    some aqui.)
@@ -71,9 +77,10 @@ dentro da estrutura de pastas que o documento descreve.
    Sem isso, um repositório tocado em Windows e Linux reescreve todos os arquivos a
    cada troca de máquina, e o diff de qualquer PR vira ruído.
 
-3. `package.json` com os scripts descritos no `architecture.md` (ex.: `start`,
-   `api`, `test`). Se o documento traz os scripts prontos, copie-os literalmente.
-   Dois casos desta disciplina:
+3. `package.json` da raiz com os scripts de orquestração descritos no
+   `architecture.md` (ex.: `start`, `api`, `test`) — é ele que poupa o aluno de
+   entrar em `apps/web` a cada comando. Se o documento traz os scripts prontos,
+   copie-os literalmente. Dois casos desta disciplina:
    - **json-server declarado para o MVP:** adicione a dependência, o script
      (`"api": "json-server db.json"` ou equivalente) e um `db.json` **vazio de
      negócio** (`{}`) — as entidades chegam pelas histórias, nunca pelo setup.
