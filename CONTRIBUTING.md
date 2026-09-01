@@ -64,7 +64,7 @@ Se o Pull Request for a primeira vez que você olha o código, o método falhou.
 **O PR será REPROVADO se:**
 
 1. Não atualizar nenhum arquivo em `docs/` ou `specs/`.
-2. A descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos 200 caracteres (Não cole o _diff_ nem a saída da IA; explique com suas palavras).
+2. A descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos 400 caracteres (Não cole o _diff_ nem a saída da IA; explique com suas palavras).
 
 **Exceção (Manutenção puramente técnica):**
 Se a mudança não afeta o produto (ex: atualizar versão, refatorar código, arrumar formatação), você não precisa criar um `spec.md`. Abra o PR direto e aplique a etiqueta `manutencao`.

@@ -26,7 +26,7 @@ Sem argumento, pergunte ao usuário qual modo ele quer.
 3. Conforme o modo, acrescente:
    - **`depois`**: número e texto literal da tarefa, e o comando de diff. Encontre o commit da tarefa com `git log --oneline --grep "tarefa <n>"` (convenção de commit do ciclo-tarefa) e monte `git diff <sha>^..<sha>`. Se a tarefa tiver mais de um commit ou o commit não for encontrado, monte o intervalo à mão e confirme com o usuário antes de despachar.
    - **`antes`**: número e texto literal da tarefa, e os critérios de aceite ligados a ela, transcritos.
-   - **`prova`**: o comando do diff completo da branch: `git diff main..HEAD`.
+   - **`prova`**: o comando do diff completo da branch: `git diff develop..HEAD` (no Gitflow a feature branch nasce da `develop` — diff contra a `main` traria trabalho de outras histórias já integradas).
 
 ## Entregar
 

@@ -14,7 +14,7 @@ Git e de PR estão no [CONTRIBUTING](../CONTRIBUTING.md).
 
 ## Fase 0 — Iniciar o projeto (uma vez por projeto)
 
-Quatro comandos, nesta ordem, cada um fechando num portão seu:
+Cinco comandos, nesta ordem, cada um fechando num portão seu:
 
 | # | Comando | O que sai | 🚪 Você faz o quê |
 | --- | --- | --- | --- |
@@ -45,8 +45,9 @@ pode rodar de novo mais tarde, a cada leva de stories promovidas a `Ready`.
 ```
 
 O agente vira orquestrador: lê a Issue e o PRD e **faz perguntas** sobre casos de
-borda e caminhos tristes (brainstorming). Da conversa sai
-`specs/012-<slug>/spec.md` com `status: rascunho` — e ele **para**.
+borda e caminhos tristes (brainstorming). Ele cria a branch da história a partir
+da `develop` (Gitflow) e da conversa sai
+`specs/12-<slug>/spec.md` com `status: rascunho`, commitado na branch — e ele **para**.
 
 ## Passo 2 — 🚪 Aprovar a spec (fora do chat)
 
@@ -54,14 +55,15 @@ Leia o arquivo **inteiro**. Em dúvida sobre alguma decisão técnica, rode
 `/utf-tutor spec` antes.
 
 A aprovação é **você** trocar `status: rascunho` por `status: aprovada` no
-frontmatter e **commitar essa linha** — ela fica no `git log`, com o seu nome.
-Nenhum agente altera esse campo.
+frontmatter e **commitar essa linha na branch da história** — ela fica no
+`git log`, com o seu nome. Nenhum agente altera esse campo.
 
 ## Passo 3 — Aprovar o plano
 
-Avise que aprovou; o agente gera o `plan.md` (tarefas de 2–5 minutos — mais de
-10, a história é grande demais e ele propõe dividir). Você lê, dá o OK na
-conversa, e ele cria a branch a partir da `develop` (Gitflow).
+Avise que aprovou; o agente gera o `plan.md` (uma tarefa por critério de aceite,
+ou um passo técnico que destrava o próximo — mais de 10, a história é grande
+demais e ele propõe dividir). Você lê, dá o OK na conversa, e ele commita o
+plano na branch da história (criada no Passo 1).
 
 ## Passo 4 — Implementar, uma tarefa por vez
 

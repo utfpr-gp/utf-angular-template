@@ -370,7 +370,17 @@ Você conversa com o agente sobre a história. Um bom agente vai fazer perguntas
 escrever qualquer coisa: o que acontece se a carona lotar enquanto a pessoa preenche?
 Ela pode solicitar duas vezes a mesma carona? O motorista precisa aprovar?
 
-Dessa conversa sai o `spec.md`, em `specs/<numero-da-issue>-<slug>/`, contendo:
+Antes de salvar qualquer coisa, o agente cria a **branch da história** — a partir da
+`develop`, porque no Gitflow as duas branches permanentes são bloqueadas e todo commit
+deste ciclo (inclusive o da sua aprovação, no Passo 3) precisa de um lugar para viver:
+
+```bash
+git switch develop && git pull
+git switch -c 27-solicitar-vaga
+```
+
+Dessa conversa sai o `spec.md`, em `specs/<numero-da-issue>-<slug>/`, commitado como
+rascunho na branch, contendo:
 
 ```yaml
 ---
@@ -411,7 +421,10 @@ que você define o que conta como "certo" — e tudo depois disso obedece a essa
 A aprovação tem uma forma concreta, e é só ela que vale:
 
 > **Você — não o agente — troca `status: rascunho` por `status: aprovada` e faz um
-> commit dessa linha.**
+> commit dessa linha, na branch da história.**
+
+É por isso que a branch nasce no Passo 2, antes da aprovação: `main` e `develop` são
+bloqueadas, e este commit — que é **seu** — precisa de um lugar para viver.
 
 Isso não é cerimônia. É o que dá **data, autor e diff** para a decisão mais importante
 do ciclo. Sem esse commit, no fim do semestre não existe nenhuma diferença observável
@@ -422,7 +435,7 @@ circunstância.
 Se você aprovar sem ler, perdeu a disciplina. Todo o resto do ciclo vai construir, com
 perfeição, uma ideia errada.
 
-### Passo 4 — Do plano à branch
+### Passo 4 — O plano entra na branch
 
 Aprovada a spec, o agente deriva o `plan.md`: decisões técnicas (componentes, Services,
 rotas e modelos afetados) e as tarefas em ordem.
@@ -447,23 +460,22 @@ você usa a palavra "e" duas vezes, são duas tarefas.
 
 **PAUSA OBRIGATÓRIA:** peça a aprovação do plano.
 
-Aprovado, **crie a branch a partir da `main`** e faça o primeiro commit:
+Aprovado, o plano entra na **branch da história** — a mesma que existe desde o Passo 2:
 
 ```bash
-git switch main && git pull
-git switch -c 27-solicitar-vaga
-git add specs/027-solicitar-vaga/
-git commit -m "spec: solicitar vaga na carona (#27)"
+git add specs/27-solicitar-vaga/plan.md
+git commit -m "plan: solicitar vaga na carona (#27)"
 ```
 
-> **Por que a spec e o plano são o primeiro commit da branch.** Porque é isso que prova
-> que a especificação veio antes do código. Se eles forem commitados junto com a
-> implementação, no fim, o `git log` não sustenta a afirmação central do método — e é o
-> `git log` que você vai mostrar na defesa. Dois minutos aqui economizam uma discussão
-> inteira depois.
+> **Por que a spec e o plano entram na branch antes de qualquer código.** Porque é isso
+> que prova que a especificação veio antes do código. O `git log` da branch conta a
+> história na ordem: rascunho da spec → aprovação (um commit **seu**) → plano → só então
+> implementação. Se tudo fosse commitado junto no fim, o log não sustentaria a afirmação
+> central do método — e é o `git log` que você vai mostrar na defesa. Dois minutos aqui
+> economizam uma discussão inteira depois.
 
-> **A `main` é bloqueada.** Nenhum commit vai direto para ela. Toda implementação nasce
-> em branch própria e entra por Pull Request.
+> **A `main` e a `develop` são bloqueadas.** Nenhum commit vai direto para elas. Toda
+> implementação nasce em branch própria a partir da `develop` e entra por Pull Request.
 
 ### Passo 5 — Execução, tarefa por tarefa
 
@@ -488,7 +500,7 @@ quem conduz o ciclo é um **orquestrador**, que não implementa e não revisa:
 #### Os pareceres vão para o disco
 
 ```
-specs/027-solicitar-vaga/reviews/
+specs/27-solicitar-vaga/reviews/
 ├── tarefa-03-conformidade-r1.md
 ├── tarefa-03-codigo-r1.md
 ├── tarefa-03-decisoes-r1.md      ← sua triagem: aceitos e recusados, com motivo
@@ -593,8 +605,9 @@ No corpo do PR vão os **apontamentos aceitos e recusados**, com o motivo de cad
 Eles estão em `specs/<slug>/reviews/` — você não precisa lembrar de nada.
 
 O merge acontece depois que o Portão de Entendimento (§9) passa. **Você não mescla o
-próprio PR sem que ele tenha passado**; a `main` é protegida justamente para que essa
-regra não dependa da sua disciplina no dia.
+próprio PR sem que ele tenha passado**; a `develop` (destino do PR de história) e a
+`main` são protegidas justamente para que essa regra não dependa da sua disciplina no
+dia.
 
 ### Quando o ciclo não é linear
 
@@ -681,7 +694,7 @@ primeira. Aí você tem duas saídas:
 2. **Pause a Issue atual.** Mova o card para *Blocked* no GitHub Projects.
 3. **Rode o ciclo SDD completo na história bloqueadora** — ela tem spec e PR próprios,
    porque é uma história de verdade.
-4. Com o código dela na `main`, **volte para a Issue bloqueada**.
+4. Com o código dela na `develop`, **volte para a Issue bloqueada**.
 
 **O que é "seguir com substituto".** É fazer o código funcionar com uma peça de mentira,
 no lugar da peça que ainda não existe.
@@ -784,8 +797,8 @@ Com quinze pastas em `specs/`, ninguém sabe o que está vivo. Mantenha um
 
 | Issue | Spec | Estado | Observação |
 | --- | --- | --- | --- |
-| #12 | `012-concluir-carona` | implementada | — |
-| #27 | `027-solicitar-vaga` | bloqueada | espera #31 |
+| #12 | `12-concluir-carona` | implementada | — |
+| #27 | `27-solicitar-vaga` | bloqueada | espera #31 |
 | #31 | `031-vaga-concorrente` | aberta | descoberta durante #27 |
 
 ---
@@ -795,12 +808,12 @@ Com quinze pastas em `specs/`, ninguém sabe o que está vivo. Mantenha um
 ```mermaid
 flowchart TD
     A["Issue no GitHub Projects"] --> B["Conversa com a IA<br/>perguntas antes do código"]
-    B --> C["spec.md<br/>status: rascunho"]
+    B --> F["Branch a partir da develop<br/>spec e plano antes do código"]
+    F --> C["spec.md<br/>status: rascunho"]
     C --> D{"🚪 Você lê e aprova<br/>commit trocando para aprovada"}
     D -->|"ajustar"| B
     D -->|"aprovada"| E["plan.md<br/>todo critério vira tarefa"]
-    E --> F["Branch a partir da main<br/>spec e plano no 1º commit"]
-    F --> T["Tutor explica a tarefa<br/>bem mastigado, antes do código"]
+    E --> T["Tutor explica a tarefa<br/>bem mastigado, antes do código"]
     T --> U{"🚪 Você aceita?"}
     U -->|"dúvidas"| T
     U -->|"aceito"| G["Implementador novo<br/>uma tarefa — TDD"]
@@ -815,7 +828,7 @@ flowchart TD
     L --> M{"🚪 Você lê, escreve<br/>e abre o PR"}
     M --> N["Portão de Entendimento"]
     N -->|"reprovado"| M
-    N -->|"aprovado"| O["Merge na main"]
+    N -->|"aprovado"| O["Merge na develop<br/>(release: PR develop → main)"]
 
     style I fill:#ffe0e0,stroke:#c62828
 ```
@@ -902,7 +915,7 @@ uma.
 
 **1. Regras sempre ativas.** Um arquivo carregado em toda mensagem, com as regras
 inegociáveis do projeto: não codificar antes da spec aprovada, TDD obrigatório, a `main`
-é bloqueada, os nomes vêm do glossário. Sem isso, você repete as mesmas instruções todo
+e a `develop` são bloqueadas, os nomes vêm do glossário. Sem isso, você repete as mesmas instruções todo
 dia e o agente esquece na terceira mensagem.
 
 **2. Um comando de fluxo.** Um arquivo de instruções que você dispara com uma linha —
@@ -965,7 +978,7 @@ Não existe arquivo de estado, e não se pergunta ao agente em que rodada ele es
 perde a conta. A contagem **é** a listagem do diretório:
 
 ```bash
-ls specs/027-solicitar-vaga/reviews/tarefa-03-*
+ls specs/27-solicitar-vaga/reviews/tarefa-03-*
 ```
 
 Nenhum arquivo → rodada 1. Um par de arquivos `-r1` → você está na rodada 2. Um par
@@ -1190,7 +1203,8 @@ Você não escreve nem altera nenhum arquivo. Aponta; não corrige.
 
 Salve como `.github/workflows/portao-de-entendimento.yml`. São vinte linhas e não há nada
 escondido nelas: o passo recorta o texto entre o título da seção e o próximo título,
-conta os caracteres que não são espaço, e reprova se for pouco.
+descarta os comentários HTML herdados do modelo de PR (para eles não contarem como
+explicação), conta os caracteres que não são espaço, e reprova se for pouco.
 
 ```yaml
 name: Portão de Entendimento
@@ -1210,7 +1224,8 @@ jobs:
           TEXTO=$(printf '%s' "$CORPO" \
             | sed -n '/O que este PR faz e por quê/,$p' \
             | tail -n +2 \
-            | sed '/^##/,$d')
+            | sed '/^##/,$d' \
+            | perl -0pe 's/<!--.*?-->//gs')
           TAMANHO=$(printf '%s' "$TEXTO" | tr -d '[:space:]' | wc -c)
           echo "Caracteres na explicação: $TAMANHO (mínimo 400)"
           if [ "$TAMANHO" -lt 400 ]; then
