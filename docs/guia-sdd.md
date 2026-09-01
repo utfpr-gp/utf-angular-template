@@ -60,7 +60,7 @@ por isso que existe o `docs/architecture.md`: para escrever, uma vez, quais são
 
 ## 2. Os artefatos
 
-Todo trabalho gira em torno de doze artefatos. Eles são a matéria-prima da sua nota.
+Todo trabalho gira em torno de onze artefatos. Eles são a matéria-prima da sua nota.
 
 | Artefato | Onde fica | Para que serve |
 | --- | --- | --- |
@@ -68,19 +68,18 @@ Todo trabalho gira em torno de doze artefatos. Eles são a matéria-prima da sua
 | **`prd.md`** | `docs/` | O que o produto faz: glossário, atores, histórias. |
 | **`architecture.md`** | `docs/` | Onde as coisas estão: estrutura, entidades, estados, contratos. |
 | **`checklist.md`** | `docs/` | A ficha da disciplina: regras do projeto, IDs e entregas — a régua dos workflows. |
-| **`user-flows.md`** | `docs/` | O que a pessoa vive na tela, e onde ela desiste. |
 | **`design-tokens.md`** | `docs/` | Cores, espaçamento, tipografia — para a IA não inventar um botão por tela. |
 | **Issue** | GitHub Projects | A unidade de trabalho. Uma história de usuário. |
 | **`spec.md`** | `specs/<issue>-<slug>/` | O que precisa existir e como saber que ficou pronto. |
 | **`plan.md`** | `specs/<issue>-<slug>/` | Como será construído, em tarefas pequenas. |
 | **Pareceres de revisão** | `specs/<issue>-<slug>/reviews/` | O que cada revisor apontou, sem edição. É a prova de que a revisão aconteceu. |
-| **Código** | `apps/api`, `apps/web` | O que a IA escreve seguindo o plano. |
+| **Código** | `src/` | O que a IA escreve seguindo o plano. |
 | **Pull Request** | GitHub | Onde você explica, com suas palavras, o que foi feito. |
 
-Desses doze itens, a IA produz sozinha apenas **o código, o plano e os pareceres**.
+Desses onze itens, a IA produz sozinha apenas **o código, o plano e os pareceres**.
 A ficha vem pronta com o template; todo o resto precisa da sua direção.
 
-E existe um décimo-terceiro, que é um índice e não um artefato: o `specs/README.md`,
+E existe um décimo-segundo, que é um índice e não um artefato: o `specs/README.md`,
 descrito no fim do §4.
 
 ---
@@ -98,9 +97,9 @@ fecha:
 | --- | --- | --- | --- |
 | 1 | Requisitos (`docs/prd.md`) | `/utf-prd` | Você lê, ajusta e **commita**; o professor aceita o tema |
 | 2 | Backlog (Issues + Kanban no Projects) | `/utf-backlog` | Você aprova a lista de Issues **antes** de elas serem criadas |
-| 3 | Jornadas e tokens (`docs/user-flows.md`, `docs/design-tokens.md`) | `/utf-flows` | Você decide o que acontece em cada ponto de desistência e **commita** |
+| 3 | Design (`docs/design-tokens.md` + protótipo navegável) | `/utf-design` | Você fecha tokens, Mobile-First e identidade PWA, decide os pontos de desistência (→ PRD) e **commita** |
 | 4 | Arquitetura (`docs/architecture.md`) | `/utf-architecture` | Você lê e **commita** |
-| 5 | Scaffold (`apps/`, verde) | `/utf-setup` | Ratificações + o primeiro PR (`manutencao`) |
+| 5 | Scaffold (o app Angular, verde) | `/utf-setup` | Ratificações + o primeiro PR (`manutencao`) |
 
 A etapa 3 vem **antes** da arquitetura de propósito: um nó vermelho quase sempre revela
 um estado que faltava (*"o pedido fica AGUARDANDO para sempre?"*), e estado é matéria do
@@ -177,8 +176,8 @@ Contém:
 - **Stack tecnológica e ambiente.** Os frameworks e paradigmas. *Declare a tecnologia
   aqui, mas deixe a versão exata do ambiente viver no `.tool-versions` e as
   bibliotecas no `package.json`.*
-- **Estrutura do monorepo.** Que pasta guarda o quê — `apps/api` em NestJS,
-  `apps/web` no framework que você escolheu.
+- **Estrutura do projeto.** Que pasta guarda o quê dentro do app Angular —
+  `core/`, `shared/`, `features/` — e a regra de dependência entre elas.
 - **Diagrama de contexto (opcional).** Quem é o front, quem é o back, banco e
   integrações externas. Trata o seu sistema como caixa preta e ilustra quem o usa e
   com que sistemas externos ele conversa (Google OAuth, gateway de pagamento, sistema
@@ -225,101 +224,15 @@ direto e a outra metade não.
   cada história. Colocar aqui polui o documento e estoura a janela de contexto da IA
   à toa.
 
-### 3.4 `docs/user-flows.md` — o que a pessoa vive na tela
+### 3.4 O protótipo é a jornada
 
-**O que é:** o desenho do caminho que o usuário percorre, do primeiro clique até o
-objetivo — **incluindo os pontos onde ele trava, espera ou desiste**.
-
-#### Por que isso não aparece sozinho
-
-Em todo fluxo, **o caminho feliz é óbvio e os caminhos ruins não são**. E os testes
-automatizados não salvam: você escreve teste para o que imaginou, e o problema é
-justamente o que não imaginou.
-
-Cinco situações que acontecem de verdade em projetos como o seu:
-
-**O Pix que demora.** Você testa com cartão, que aprova na hora, e está tudo certo. Na
-apresentação, alguém paga com Pix. O usuário volta ao site e vê "aguardando
-pagamento", espera cinco segundos, acha que falhou e **paga de novo**. Agora há dois
-pagamentos para um pedido.
-
-**O cadastro que prende o usuário.** Cadastro em duas etapas: informa o e-mail, recebe
-o link, completa o perfil. A pessoa fecha o navegador antes de confirmar. Uma semana
-depois tenta se cadastrar: "e-mail já cadastrado". Tenta entrar: "usuário não
-confirmado". Ela está presa, e não existe nenhum botão na tela que a tire dali.
-
-**A sessão que expira no formulário longo.** O usuário preenche vinte campos durante
-quinze minutos, clica em salvar, o token já expirou, a API devolve 401, o interceptor
-manda para o login — e **o formulário inteiro se perde**. A pergunta que a jornada
-força: a sessão é verificada ao abrir o formulário ou só ao enviar?
-
-**A regra que só aparece no fim.** O usuário escolhe o serviço, preenche tudo, e só ao
-enviar o servidor responde "você precisa ter um item cadastrado antes". A checagem
-tinha que estar na porta, não na saída.
-
-**O login que perde o contexto.** A pessoa está navegando anônima, encontra um item,
-clica em "favoritar", é mandada ao login, entra — e cai na home. Perdeu o que estava
-fazendo e provavelmente desiste.
-
-#### Quando vale a pena escrever a jornada
-
-Não é para todo fluxo. Um CRUD de listagem não precisa de diagrama nenhum. **Vale
-escrever quando o fluxo tem pelo menos uma destas quatro características:**
-
-1. **Sai do seu site e volta** — checkout, login social, confirmação por e-mail
-2. **Depende do tempo** — algo pode demorar, expirar ou chegar fora de ordem
-3. **Depende de outra pessoa agir** — uma aprovação, uma moderação, um parceiro aceitar
-4. **Pode ser abandonado no meio** — formulário longo, cadastro em etapas
-
-Repare que o **pagamento marca as quatro ao mesmo tempo**. É por isso que ele é o
-exemplo canônico.
-
-#### O que se exige nesta disciplina
-
-**Pelo menos uma jornada**, da história que você julgar mais crítica no seu projeto.
-Se estiver em dúvida sobre qual escolher, use a **jornada de pagamento** — todo projeto
-tem uma, e ela marca os quatro critérios.
-
-Uma jornada bem feita vale mais que três superficiais. O objetivo aqui é aprender a
-enxergar o caminho ruim, não produzir documentação por volume.
-
-#### Como desenhar
-
-Três convenções, só:
-
-- **Losango** — decisão do sistema (validação, guard, verificação de estado)
-- **Retângulo com `«pessoa»`** — ação de quem está na tela
-- **Nó vermelho** — onde a pessoa some
-
-```mermaid
-flowchart TD
-    A(["Escolheu o produto"]) --> B{"Está logado?"}
-    B -->|"não"| C["/login"] --> D
-    B -->|"sim"| D["«pessoa» confirma o pedido"]
-    D --> E["API cria o Pedido<br/>status AGUARDANDO"]
-    E --> F(["Checkout do gateway<br/>fora do site"])
-    F --> G{"O que aconteceu?"}
-    G -->|"pagou"| H["Volta para /pagamento/sucesso"]
-    G -->|"fechou a aba"| X1[["Some — e o pedido fica<br/>AGUARDANDO para sempre?"]]
-    H --> I{"Status real do pedido"}
-    I -->|"webhook confirmou"| J(["PAGO"])
-    I -->|"ainda não chegou"| K["«pessoa» vê 'processando'<br/>e acompanha no painel"]
-
-    style X1 fill:#ffe0e0,stroke:#c62828
-```
-
-Abaixo do diagrama, escreva **um parágrafo** dizendo o que você fez a respeito do nó
-vermelho. Esse parágrafo é o que transforma o desenho em decisão de projeto — e é o que
-o professor vai pedir para você explicar na defesa.
-
-Desenhe a jornada **antes** de implementar. Olhe para o nó vermelho: é ele que responde
-as duas perguntas que quebram a maioria das integrações de pagamento — o que acontece
-quando o usuário fecha a aba, e quem realmente decide que o pedido foi pago.
-
-> ⚠️ **A jornada só vira software se virar critério de aceite.** O nó vermelho que você
-> desenhou aqui precisa reaparecer, mais tarde, como uma linha verificável no `spec.md`
-> da história correspondente. Se ele ficar só no diagrama, ninguém escreve teste para
-> ele e ele volta no dia da apresentação. Veja o Passo 2 do §4.
+Nesta disciplina não existe documento de jornadas: **o protótipo navegável
+(Stitch/Figma) é a jornada** — clicável, tela a tela, exigido pelo ID1. O que o
+protótipo não guarda são as **decisões**: onde a pessoa trava, espera ou desiste, e o
+que o sistema faz a respeito. Essas decisões o `/utf-design` pergunta uma a uma, e a
+resposta vira **regra de negócio ou critério de aceite no `prd.md`** — nunca um
+documento novo. Desenho bonito sem decisão registrada é decoração; é a decisão que o
+professor pede para explicar na apresentação.
 
 ### 3.5 Tokens de design e protótipo
 
@@ -333,7 +246,7 @@ problema real, que é a IA inventar um botão diferente a cada tela, é bem meno
 Com isso no repositório, a prototipagem assistida por IA tem a que obedecer. Sem isso,
 cada tela nasce de um gosto diferente.
 
-Os dois artefatos desta seção e da anterior saem do mesmo comando, o `/utf-flows`.
+Os tokens, os breakpoints, a identidade PWA e o link do protótipo saem do mesmo comando, o `/utf-design`.
 
 ### 3.6 A regra de ouro dos documentos
 
@@ -348,8 +261,8 @@ confiar.
 | `README.md` | **como rodar** — instalação, execução, link em produção |
 | `docs/prd.md` | **o que o produto faz** — histórias, critérios e o que já está pronto |
 | `docs/architecture.md` | **onde as coisas estão** — estrutura, entidades, contratos, estados |
-| `docs/user-flows.md` | **o que a pessoa vive** — jornadas e pontos de desistência |
-| `docs/design-tokens.md` | **como o produto se parece** — paleta, espaçamento, tipografia |
+| `docs/design-tokens.md` | **como o produto se parece** — tokens, breakpoints, identidade PWA, protótipo |
+| `docs/checklist.md` | **o que a disciplina exige** — regras, IDs e entregas |
 | `docs/checklist.md` | **o que a disciplina exige** — regras, IDs e entregas |
 | `specs/` | **o que está sendo construído agora** — uma pasta por história |
 

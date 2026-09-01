@@ -20,6 +20,7 @@ Você é o Engenheiro e o Arquiteto; a IA é a sua equipe de execução.
 - **Trabalho:** Crie uma feature branch curta **a partir da `develop`** para cada Issue.
 - **Integração:** Ao finalizar, abra um Pull Request **para a `develop`** com `Closes #<n>`. O CI (testes + lint) precisa passar antes do merge.
 - **Release:** quando a `develop` está estável, um PR de `develop` → `main` publica a versão (é o que o deploy em produção acompanha).
+- **Em equipe (ID27):** todo PR precisa da aprovação de **um colega** antes do merge — quem abre a story não mergeia o próprio PR. Os portões da história (spec, triagem, commit) são do **dono da história**; a revisão do PR é do colega.
 
 ---
 
@@ -32,8 +33,8 @@ Nada é duplicado neste projeto. Informação repetida diverge.
 | **Vitrine**       | `README.md` na raiz     | O que é o projeto e como rodar.                                        |
 | **Produto**       | `docs/prd.md`           | O que o sistema faz (Glossário, Atores, Histórias).                    |
 | **Arquitetura**   | `docs/architecture.md`  | Onde as coisas estão (estrutura, entidades, contratos).                |
-| **Jornadas**      | `docs/user-flows.md`    | O caminho do usuário e onde ele desiste.                               |
 | **Ficha**         | `docs/checklist.md`     | As regras da disciplina, os IDs e as entregas — a régua dos workflows. |
+| **Design**        | `docs/design-tokens.md` | Tokens, breakpoints, identidade PWA e o link do protótipo navegável.   |
 | **Especificação** | `specs/<issue>-<slug>/` | O `spec.md` (o que fazer), o `plan.md` (tarefas técnicas) e `reviews/` (pareceres e triagem). |
 | **Leis da IA**    | `.agents/`              | `rules/utf-rules.md` (constituição, carregada via `CLAUDE.md`), `workflows/` (ciclos) e `agents/` (prompts dos subagentes). |
 
@@ -52,7 +53,7 @@ O que é **norma inegociável** deste repositório são os cinco portões humano
 2. **🚪 Explicação do tutor:** cada tarefa só é implementada depois do seu "pode implementar" — dúvida agora custa cinco minutos; depois do diff, custa uma rodada.
 3. **🚪 Triagem:** só você aceita ou recusa apontamentos de revisão (recusa exige justificativa, registrada em `specs/<issue>-<slug>/reviews/tarefa-NN-decisoes-rN.md`).
 4. **🚪 Commit:** revisores aprovarem não basta — o orquestrador apresenta o diff e os pareceres e só commita com o seu "pode commitar".
-5. **🚪 Pull Request:** só você escreve a explicação, com as suas palavras, listando os apontamentos aceitos e recusados.
+5. **🚪 Pull Request:** só você escreve a explicação, com as suas palavras, listando os apontamentos aceitos e recusados — e um **colega** aprova antes do merge.
 
 ---
 

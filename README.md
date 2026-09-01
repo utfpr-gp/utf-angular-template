@@ -23,7 +23,7 @@ apresentação final.
 | --- | --- | --- |
 | Requisitos | `/utf-prd` | `docs/prd.md` — o QUE o produto faz |
 | Backlog | `/utf-backlog` | Issues no GitHub + Kanban no Projects |
-| Jornadas e tokens | `/utf-flows` | `docs/user-flows.md` e `docs/design-tokens.md` — o que a pessoa vive na tela |
+| Design | `/utf-design` | `docs/design-tokens.md` + protótipo navegável — tokens, Mobile-First e identidade PWA |
 | Arquitetura | `/utf-architecture` | `docs/architecture.md` — onde as coisas moram |
 | Scaffold | `/utf-setup` | o app Angular, nascendo verde |
 | Cada história | `/utf-issue <n>` → `/utf-task` | spec, plano e código, tarefa a tarefa |
@@ -65,8 +65,9 @@ o porquê de cada regra, em [`docs/guia-sdd.md`](docs/guia-sdd.md).
 
 Pré-requisitos das integrações: **`gh` autenticado (`gh auth login`, escopos
 `repo`, `workflow` e `project`) ou MCP do GitHub** — sem isso, backlog, etiquetas
-e PRs não saem. Com MCP Context7 disponível, os fluxos conferem versões de
-ferramentas na documentação atual antes de decidir.
+e PRs não saem. **MCPs recomendados** (ID32 — configure na sua IDE): **Figma**
+(o protótipo vira contexto do agente), **Supabase** (na E3) e **Context7**
+(versões atuais de ferramentas antes de decidir).
 
 ---
 
@@ -96,7 +97,7 @@ erDiagram
 
 - **Frontend:** Angular [versão]
 - **Framework CSS:** [Tailwind, PrimeNG, …]
-- **BaaS:** [Supabase, PocketBase, …]
+- **Dados:** json-server (MVP/E2) → [Supabase, PocketBase, …] (E3)
 - **Bibliotecas:** [lista]
 
 ## Em produção

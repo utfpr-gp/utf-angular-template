@@ -23,9 +23,12 @@
 - **Stack fixa:** **Angular 20+** — arquitetura **standalone** (sem NgModules),
   **Signals** para estado, sintaxe moderna (`@if`/`@for`/`@switch`/`@defer`,
   `input()`/`output()`/`model()`, `inject()`).
-- **Sem backend próprio:** dados, autenticação (JWT) e CRUD via **BaaS**
-  (ex.: Supabase, PocketBase) — a escolha é da equipe, registrada no
-  documento técnico.
+- **Sem backend próprio — e em duas fases:** no MVP (Entrega 2) os dados vêm
+  de um **json-server** (API fake local); na Entrega 3 a aplicação troca para
+  um **BaaS** (ex.: Supabase, PocketBase) com autenticação (JWT) e CRUD reais.
+  A escolha do BaaS é da equipe, registrada no documento técnico — e a troca
+  deve atingir **só os Services**: planeje a camada de dados para isso desde o
+  início (é a regra "componente não fala com o servidor" valendo dinheiro).
 - **Framework CSS moderno** à escolha (ex.: Tailwind CSS, PrimeNG), com
   **Design System** próprio da equipe (tokens em `docs/design-tokens.md`).
 - **UI/UX:** protótipo navegável (Stitch/Figma) com link público no
@@ -110,8 +113,8 @@
 | Entrega | O quê | Data |
 | --- | --- | --- |
 | **E1 — Concepção e Planejamento** | Escopo da equipe sobre o tema do semestre, repositório com Gitflow, README com o checklist, Design System, framework CSS, protótipo navegável no Figma | **20 de setembro** |
-| **E2 — Estrutura Funcional (MVP)** | Aplicação com a estrutura funcional mínima, alimentada pelas atividades semanais | **25 de outubro** |
-| **E3 — Aplicação Completa e Apresentação** | App completo em produção (Vercel/Render) + **vídeo** apresentando inspiração, design system, protótipo e o projeto contra o checklist | **06 de dezembro** |
+| **E2 — Estrutura Funcional (MVP)** | Aplicação com a estrutura funcional mínima, consumindo dados do **json-server** | **25 de outubro** |
+| **E3 — Aplicação Completa e Apresentação** | Dados e autenticação migrados para o **BaaS** (ex.: Supabase), app completo em produção (Vercel/Render) + **vídeo** apresentando inspiração, design system, protótipo e o projeto contra o checklist | **06 de dezembro** |
 
 > 🎥 Se o vídeo for insuficiente, a apresentação é síncrona ao Professor
 > (presencial ou remota). O detalhamento de cada entrega está no Guia do

@@ -71,9 +71,15 @@ dentro da estrutura de pastas que o documento descreve.
    Sem isso, um repositório tocado em Windows e Linux reescreve todos os arquivos a
    cada troca de máquina, e o diff de qualquer PR vira ruído.
 
-3. `package.json` da raiz com os scripts de orquestração descritos no
-   `architecture.md` (ex.: `start`, `api`, `test`). Se o documento traz os scripts
-   prontos, copie-os literalmente.
+3. `package.json` com os scripts descritos no `architecture.md` (ex.: `start`,
+   `api`, `test`). Se o documento traz os scripts prontos, copie-os literalmente.
+   Dois casos desta disciplina:
+   - **json-server declarado para o MVP:** adicione a dependência, o script
+     (`"api": "json-server db.json"` ou equivalente) e um `db.json` **vazio de
+     negócio** (`{}`) — as entidades chegam pelas histórias, nunca pelo setup.
+   - **PWA declarado:** rode `ng add @angular/pwa` e preencha o
+     `manifest.webmanifest` com a identidade decidida no `/utf-design`
+     (nome curto, cores, ícones) — sem inventar valores.
 
 ## Passo 4 — As ferramentas do método
 
@@ -103,7 +109,7 @@ do guia é exatamente como o Portão nasce parafraseado e sem efeito.
    {
      "required_status_checks": null,
      "enforce_admins": true,
-     "required_pull_request_reviews": { "required_approving_review_count": 0 },
+     "required_pull_request_reviews": { "required_approving_review_count": 1 },
      "restrictions": null,
      "allow_force_pushes": false,
      "allow_deletions": false
@@ -111,9 +117,10 @@ do guia é exatamente como o Portão nasce parafraseado e sem efeito.
    JSON
    ```
 
-   `required_approving_review_count: 0` exige **Pull Request** para entrar na
-   `main`, sem exigir aprovação de terceiro — funciona igual para quem faz
-   sozinho e para dupla. `enforce_admins: true` faz a regra valer também para o
+   `required_approving_review_count: 1` exige **Pull Request aprovado por um
+   colega** — nesta disciplina o projeto é em equipe (2–3), e a revisão entre
+   colegas com resolução de conflitos é cobrada pelo ID27: quem abre a story
+   não mergeia o próprio PR. `enforce_admins: true` faz a regra valer também para o
    dono do repositório: sem isso, o aluno é justamente quem fura a regra sem
    perceber. Para destravar uma emergência ele desliga a proteção
    conscientemente, e isso fica registrado no log do repositório.
