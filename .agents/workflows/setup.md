@@ -15,10 +15,10 @@ que foi decidida. O que não estiver escrito lá, você pergunta; não escolhe.
 ## Passo 0 — Pré-condições (PARE se qualquer uma falhar)
 
 1. `docs/prd.md` e `docs/architecture.md` existem e declaram: o framework do backend,
-   o framework do frontend, a estrutura de pastas do monorepo e como rodar os testes.
+   o framework do frontend, a fonte de dados, a estrutura de pastas e como rodar os testes.
    Se algum desses quatro estiver ausente ou ambíguo, **PARE** e diga o que falta —
    setup com stack adivinhada é retrabalho garantido.
-2. As pastas de app previstas no `architecture.md` (ex.: `apps/web`, `apps/api`)
+2. As pastas de código previstas no `architecture.md` (ex.: `src/`)
    **não existem** ou estão vazias. Se já existirem com conteúdo, **PARE**: o setup
    roda uma vez, e rodá-lo de novo por cima é destrutivo.
 3. Você está na `develop`, limpa e atualizada (se a `develop` ainda não existe, crie-a a partir da `main` e publique: `git switch -c develop && git push -u origin develop` — o Gitflow da ficha exige as duas).
@@ -38,7 +38,7 @@ Nenhum arquivo é criado antes da branch existir. No Gitflow, `main` e `develop`
 ## Passo 2 — Os apps, pelos geradores oficiais
 
 Gere cada app com o gerador oficial da stack declarada no `architecture.md`
-(ex.: `@nestjs/cli` para NestJS, `ng new` para Angular, `create-vite` para React/Vue),
+(`ng new` para Angular, mais `ng add` para o que o documento declarar — PWA, framework CSS),
 dentro da estrutura de pastas que o documento descreve.
 
 - **Antes de rodar, confirme na documentação atual** (MCP Context7, se
@@ -57,8 +57,7 @@ dentro da estrutura de pastas que o documento descreve.
 1. `.gitignore` da raiz cobrindo `node_modules/`, artefatos de build (`dist/`,
    `build/`, `.angular/`, `coverage/`) e `.env` — **antes do primeiro
    `git add`**. Confira o que os geradores deixaram: com `--skip-git`, alguns
-   (ex.: NestJS) não criam `.gitignore` próprio — não é esquecimento, o da
-   raiz cobre todos os apps. Valide com `git status --short`: se aparecerem
+   não criam `.gitignore` próprio — não é esquecimento, o da raiz cobre o projeto. Valide com `git status --short`: se aparecerem
    milhares de arquivos, o ignore não cobriu algo. (A IDE mostrar uma
    avalanche de untracked **entre** a geração e este passo é normal — ela
    some aqui.)
