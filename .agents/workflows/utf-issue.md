@@ -9,6 +9,7 @@ Sempre que o usuário pedir para trabalhar em uma Issue (Feature), você atuará
 **Passo 0: Pré-condições**
 - Acesso ao GitHub: MCP do GitHub disponível **ou** `gh` autenticado (`gh auth status`). Sem um dos dois, **PARE** — este fluxo lê Issues e prepara PR.
 - A Issue existe no GitHub. Se as Issues das stories ainda não foram criadas, mande rodar `/utf-backlog` primeiro.
+- **Retomada.** Se `specs/<numero-da-issue>-<slug>/` já existe, **não recomece**: descubra o estado e entre no passo certo — spec `rascunho` → a pausa do Passo 1, esperando a aprovação; `aprovada` sem `plan.md` → Passo 2; plano com tarefa pendente → Passo 3; todas as tarefas feitas → Passo 4. É assim que `/utf-issue <n>` fecha a Issue depois da última tarefa, e é o que impede reescrever uma spec que o usuário já aprovou.
 
 **Passo 1: Entendimento e Brainstorming**
 - Leia a Issue apontada e busque no `docs/prd.md` os critérios e o Glossário Ubíquo.
