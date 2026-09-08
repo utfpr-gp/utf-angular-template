@@ -8,6 +8,10 @@ Spec-Driven Development*): a IA escreve o código; **você decide nos portões**
 quem revisa nunca é quem escreveu, e todo artefato é evidência para a
 apresentação final.
 
+> 📖 **Entenda o método antes de começar:**
+> **[utfpr-gp.github.io/utf-angular-template](https://utfpr-gp.github.io/utf-angular-template/)**
+> — o ciclo, os portões, os comandos e os papéis, explicados passo a passo.
+
 ## 🚀 Como começar
 
 1. Clique em **Use this template → Create a new repository** (não faça fork).
@@ -62,6 +66,8 @@ implementador escreve. A trava tem forças diferentes, e vale saber qual você t
 
 O passo a passo detalhado está em [`docs/tutorial-sdd.md`](docs/tutorial-sdd.md);
 o porquê de cada regra, em [`docs/guia-sdd.md`](docs/guia-sdd.md).
+A versão navegável dos dois é o
+[site do método](https://utfpr-gp.github.io/utf-angular-template/).
 
 Pré-requisitos das integrações: **`gh` autenticado (`gh auth login`, escopos
 `repo`, `workflow` e `project`) ou MCP do GitHub** — sem isso, backlog, etiquetas
