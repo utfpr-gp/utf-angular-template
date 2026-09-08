@@ -578,8 +578,15 @@ Duas coisas, nessa ordem:
 
 ### Passo 6 — Auditoria do diff inteiro
 
-Terminadas as tarefas, um último agente — o **auditor final** — compara o resultado
-completo contra a **spec aprovada**, e deliberadamente **ignora o `plan.md`**.
+Terminadas as tarefas, **primeiro você atualiza a documentação** — o status da história
+no `docs/prd.md`, os diagramas do `docs/architecture.md` que mudaram e a linha da spec no
+`specs/README.md` — e commita. Só então entra um último agente: o **auditor final**, que
+compara o resultado completo contra a **spec aprovada** e deliberadamente **ignora o
+`plan.md`**.
+
+A ordem importa. Duas das quatro coisas que ele confere (logo abaixo) são justamente
+essas atualizações: auditar antes de fazê-las é auditar um repositório que ainda não é o
+que vai para o Pull Request, e as duas pendências apareceriam sempre.
 
 A ênfase é essa: *spec, não plano*. O plano é meio, não fim. Se o plano omitiu um
 critério, comparar contra ele esconde exatamente o defeito que se está procurando. (Se
@@ -603,7 +610,7 @@ Você lê o diff, escreve a explicação com suas palavras e abre o Pull Request
 `Closes #27`.
 
 No corpo do PR vão os **apontamentos aceitos e recusados**, com o motivo de cada recusa.
-Eles estão em `specs/<slug>/reviews/` — você não precisa lembrar de nada.
+Eles estão em `specs/<issue>-<slug>/reviews/` — você não precisa lembrar de nada.
 
 O merge acontece depois que o Portão de Entendimento (§9) passa. **Você não mescla o
 próprio PR sem que ele tenha passado**; a `develop` (destino do PR de história) e a

@@ -40,8 +40,8 @@ status: rascunho   # rascunho | aprovada
 - Ao fim de cada tarefa, pare e devolva o controle ao usuário. Ele pede a próxima.
 
 **Passo 4: Auditoria final e Pull Request**
-- Terminadas todas as tarefas, despache o subagente **auditor-final**, que compara o diff **inteiro** contra o `spec.md` original — nunca contra o `plan.md`.
-- Atualize, no mesmo commit do comportamento: o status da história no `docs/prd.md`, os diagramas do `docs/architecture.md` que mudaram, e o `specs/README.md`.
+- Terminadas todas as tarefas, atualize **primeiro** a documentação: o status da história no `docs/prd.md`, os diagramas do `docs/architecture.md` que mudaram, e a linha da spec no `specs/README.md`. Proponha o commit e faça-o **só com o "pode commitar" do usuário** — o portão do commit vale aqui como em cada tarefa.
+- Despache **então** o subagente **auditor-final**, que compara o diff **inteiro** contra o `spec.md` original — nunca contra o `plan.md` — e confere a documentação que acabou de ser atualizada. Auditar antes de atualizar os documentos é auditar um repositório que ainda não é o que vai para o PR. Se o veredito for NÃO PRONTO, cada pendência vira tarefa nova no `plan.md` (com o OK do usuário) e passa pelo `/utf-task`; depois o auditor roda de novo.
 - Antes de o usuário escrever o PR, sugira `/utf-tutor prova` — o simulado interativo sobre o diff inteiro, que é o ensaio da defesa presencial.
 - Prepare as alterações (commit) e lembre o usuário de abrir o Pull Request com `Closes #<n>`.
 - A seção **"O que este PR faz e por quê"** é escrita **pelo usuário, com as palavras dele**. Ofereça os fatos do diff; não ofereça o texto pronto.
