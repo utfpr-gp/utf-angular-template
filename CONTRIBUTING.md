@@ -16,6 +16,11 @@ Você é o Engenheiro e o Arquiteto; a IA é a sua equipe de execução.
 
 ## 🌳 Fluxo Git e Proteção da Produção (Gitflow)
 
+> As regras desta seção valem para **o projeto que a equipe constrói**. Este
+> repositório é o template da disciplina: ele não tem produção nem release, então vive
+> só na `main`, e a manutenção dele entra por Pull Request de branch curta direto para
+> ela. A `develop` do projeto de vocês é criada pelo `/utf-setup`, no repositório novo.
+
 - **Duas branches permanentes e bloqueadas:** a `main` reflete a produção; a `develop` integra o trabalho da equipe. Commit direto em qualquer uma das duas é proibido.
 - **Trabalho:** Crie uma feature branch curta **a partir da `develop`** para cada Issue.
 - **Integração:** Ao finalizar, abra um Pull Request **para a `develop`** com `Closes #<n>`. O CI (testes + lint) precisa passar antes do merge.
