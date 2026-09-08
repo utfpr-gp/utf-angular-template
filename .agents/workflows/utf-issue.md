@@ -15,7 +15,7 @@ Sempre que o usuário pedir para trabalhar em uma Issue (Feature), você atuará
 - Leia a Issue apontada e busque no `docs/prd.md` os critérios e o Glossário Ubíquo.
 - Faça perguntas ao usuário de forma proativa. Questione sobre casos de borda, caminhos tristes (ex: falhas de rede, dados inválidos) e como validar os critérios de aceite.
 - Após sanar as dúvidas, **crie a branch da história a partir da `develop`** (`git switch develop && git pull && git switch -c <numero-da-issue>-<slug>`). Ela nasce agora, antes da aprovação, porque no Gitflow `main` e `develop` são bloqueadas — e o commit de aprovação do usuário precisa de um lugar para viver.
-- Redija o documento e salve no caminho `specs/<numero-da-issue>-<slug>/spec.md`, commitando o rascunho na branch, com este frontmatter:
+- Redija o documento e salve no caminho `specs/<numero-da-issue>-<slug>/spec.md`, commitando o rascunho na branch. **A estrutura é a de `docs/modelo-spec.md`** — copie-a e preencha; os comentários dela explicam cada seção e são apagados no caminho. Não invente seções novas nem pule as existentes. O frontmatter:
 
 ```yaml
 ---
@@ -30,7 +30,7 @@ status: rascunho   # rascunho | aprovada
 - Com o `spec.md` aprovado, quebre o trabalho em tarefas curtas e encadeadas — cada uma prova **um critério de aceite inteiro**, ou é um passo técnico que sozinho não prova nada mas destrava o próximo.
 - Cada tarefa deve prever a criação de testes primeiro (TDD).
 - Se o plano passar de **10 tarefas**, pare: a história é grande demais. Proponha dividi-la em duas Issues antes de continuar.
-- Salve o resultado no caminho `specs/<numero-da-issue>-<slug>/plan.md`.
+- Salve o resultado no caminho `specs/<numero-da-issue>-<slug>/plan.md`, na forma de `docs/modelo-plan.md`: checklist `- [ ] **Tarefa N — <título>**`, cada uma citando o critério de aceite que cobre e o teste que nasce primeiro. Tarefa feita vira `- [x]`: é essa marcação que o `/utf-task` sem número lê. A seção *Critérios sem tarefa* precisa terminar vazia.
 - **PAUSA OBRIGATÓRIA:** Peça a aprovação do usuário para o plano. Com o OK, commite o `plan.md` na branch da história.
 
 **Passo 3: Execução (uma tarefa por vez)**

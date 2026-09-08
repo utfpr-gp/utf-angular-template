@@ -36,6 +36,7 @@ Nada é duplicado neste projeto. Informação repetida diverge.
 | **Ficha**         | `docs/checklist.md`     | As regras da disciplina, os IDs e as entregas — a régua dos workflows. |
 | **Design**        | `docs/design-tokens.md` | Tokens, breakpoints, identidade PWA e o link do protótipo navegável.   |
 | **Especificação** | `specs/<issue>-<slug>/` | O `spec.md` (o que fazer), o `plan.md` (tarefas técnicas) e `reviews/` (pareceres e triagem). |
+| **Modelos**       | `docs/modelo-spec.md` e `docs/modelo-plan.md` | A forma do `spec.md` e do `plan.md`, comentada. Não são specs — são a régua. |
 | **Leis da IA**    | `.agents/`              | `rules/utf-rules.md` (constituição, carregada via `CLAUDE.md`), `workflows/` (ciclos) e `agents/` (prompts dos subagentes). |
 
 ---

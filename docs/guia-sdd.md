@@ -70,8 +70,8 @@ Todo trabalho gira em torno de onze artefatos. Eles são a matéria-prima da sua
 | **`checklist.md`** | `docs/` | A ficha da disciplina: regras do projeto, IDs e entregas — a régua dos workflows. |
 | **`design-tokens.md`** | `docs/` | Cores, espaçamento, tipografia — para a IA não inventar um botão por tela. |
 | **Issue** | GitHub Projects | A unidade de trabalho. Uma história de usuário. |
-| **`spec.md`** | `specs/<issue>-<slug>/` | O que precisa existir e como saber que ficou pronto. |
-| **`plan.md`** | `specs/<issue>-<slug>/` | Como será construído, em tarefas pequenas. |
+| **`spec.md`** | `specs/<issue>-<slug>/` | O que precisa existir e como saber que ficou pronto. A forma dele, comentada, está em `docs/modelo-spec.md`. |
+| **`plan.md`** | `specs/<issue>-<slug>/` | Como será construído, em tarefas pequenas. A forma, em `docs/modelo-plan.md`. |
 | **Pareceres de revisão** | `specs/<issue>-<slug>/reviews/` | O que cada revisor apontou, sem edição. É a prova de que a revisão aconteceu. |
 | **Código** | `apps/web/` | O que a IA escreve seguindo o plano. |
 | **Pull Request** | GitHub | Onde você explica, com suas palavras, o que foi feito. |
