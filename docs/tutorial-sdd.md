@@ -27,6 +27,13 @@ Cinco comandos, nesta ordem, cada um fechando num portão seu:
 Pré-requisito dos passos 2 e 5: `gh` autenticado ou MCP do GitHub. O `/utf-backlog`
 pode rodar de novo mais tarde, a cada leva de stories promovidas a `Ready`.
 
+> 🎓 **O tutor também vale na Fase 0.** Cada documento é decisão sua, e decisão que
+> você não sabe explicar não sobrevive à arguição. Antes de commitar, rode
+> `/utf-tutor prd`, `design` ou `architecture` — ele explica os conceitos em cima do
+> **seu** documento, não em exemplo genérico. Depois do `/utf-setup` você não precisa
+> pedir: o fluxo chama o tutor sozinho, porque ali é o único momento em que você
+> recebe dezenas de arquivos que não escreveu.
+
 ---
 
 ## Antes de começar (uma vez por história)
@@ -80,7 +87,7 @@ Dentro do comando acontece o ciclo completo, com as suas paradas:
 | Revisão em paralelo | revisor-conformidade + revisor-codigo | nada — quem despacha é o fluxo |
 | Pareceres gravados em `reviews/` | orquestrador | nada |
 | **Triagem** (se houve apontamentos) | orquestrador apresenta a lista | **🚪 aceita ou recusa cada um** — recusa exige justificativa, registrada em `reviews/tarefa-NN-decisoes-rN.md` |
-| Commit `tarefa 1: ...` | orquestrador apresenta o diff e os pareceres | **🚪 confere o diff na IDE e autoriza** ("pode commitar"); `/utf-tutor 1` se quiser a aula |
+| Commit `tarefa 1: ...` | orquestrador apresenta o diff e os pareceres | **🚪 confere o diff na IDE e autoriza** ("pode commitar"); `/utf-tutor passo 1` destrincha o diff arquivo por arquivo, e `/utf-tutor 1` dá a aula depois do commit |
 
 Repita para cada tarefa: `/utf-task 2`, `/utf-task 3`… — ou apenas
 `/utf-task`, que pega a próxima pendente do `plan.md` e avisa quando não
@@ -118,13 +125,38 @@ palavras, lista os apontamentos aceitos e recusados (saem dos arquivos
 | `/utf-setup` | Fase 0, etapa 5 — gera o scaffold do projeto |
 | `/utf-issue <n>` | Uma vez, para iniciar o ciclo da Issue (spec → plano) |
 | `/utf-task [n]` | Uma vez **por tarefa** do plano — sem número, executa a próxima pendente |
+| `/utf-tutor prd` · `design` · `architecture` | Na Fase 0, antes de commitar cada documento |
+| `/utf-tutor setup` | Depois do scaffold — o app, a fonte de dados e os arquivos que você não escreveu (o `/utf-setup` já chama sozinho) |
 | `/utf-tutor spec` | Antes de aprovar a spec |
+| `/utf-tutor passo <n>` | A leitura do diff arquivo por arquivo, no seu ritmo |
 | `/utf-tutor <n>` | Depois de uma tarefa, para a aula sobre aquele diff |
 | `/utf-tutor antes <n>` | Para reouvir a explicação pré-implementação de uma tarefa |
 | `/utf-tutor prova` | Antes de escrever o PR — o ensaio da defesa |
 
 Dizer "vamos trabalhar na Issue 12" em linguagem natural também dispara o fluxo
 (`utf-rules.md` §1) — os comandos são só o caminho mais curto.
+
+---
+
+## Fora do ciclo — bug e tarefa técnica
+
+Nem todo trabalho é história. **Bug** (algo que já deveria funcionar e não funciona) e
+**tarefa técnica** (subir versão, refatorar, configurar a esteira) não têm `spec.md`
+e não passam pelo `/utf-issue`. O caminho é mais curto, e mesmo assim tem regras:
+
+1. **Abra a Issue direto no GitHub**, escolhendo o modelo (🔴 Bug ou 🟡 Tarefa técnica).
+   Aqui a descrição é detalhada — passos, erro do console, evidência. É ela que faz o
+   papel da spec.
+2. **Branch a partir da `develop`**, como sempre no Gitflow.
+3. **No bug, o primeiro commit é um teste que reproduz a falha e falha de verdade.**
+   Sem esse teste, nada prova que o bug foi embora nem que ele não volta. Só depois vem
+   a correção. É o mesmo RED → GREEN do ciclo, sem a papelada.
+4. **PR para a `develop` com a etiqueta `manutencao`**, `Closes #<n>` e a explicação de
+   250 caracteres. A etiqueta dispensa a spec, **nunca** o Portão de Entendimento.
+
+Se, ao investigar, você descobrir que o `docs/prd.md` nunca disse o que o sistema
+deveria fazer ali, então não era bug: é história nova. Feche a Issue, escreva a story
+no PRD e volte para o ciclo normal.
 
 ---
 

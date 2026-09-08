@@ -110,13 +110,16 @@
 
 ## 📦 As três entregas
 
-| Entrega | O quê | Data |
-| --- | --- | --- |
-| **E1 — Concepção e Planejamento** | Escopo da equipe sobre o tema do semestre, repositório com Gitflow, README com o checklist, Design System, framework CSS, protótipo navegável no Figma | **20 de setembro** |
-| **E2 — Estrutura Funcional (MVP)** | Aplicação com a estrutura funcional mínima, consumindo dados do **json-server** | **25 de outubro** |
-| **E3 — Aplicação Completa e Apresentação** | Dados e autenticação migrados para o **BaaS** (ex.: Supabase), app completo em produção (Vercel/Render) + **vídeo** apresentando inspiração, design system, protótipo e o projeto contra o checklist | **06 de dezembro** |
+| Entrega | O quê |
+| --- | --- |
+| **E1 — Concepção e Planejamento** | Escopo da equipe sobre o tema do semestre, repositório com Gitflow, README com o checklist, Design System, framework CSS, protótipo navegável no Figma |
+| **E2 — Estrutura Funcional (MVP)** | Aplicação com a estrutura funcional mínima, consumindo dados do **json-server** |
+| **E3 — Aplicação Completa e Apresentação** | Dados e autenticação migrados para o **BaaS** (ex.: Supabase), app completo em produção (Vercel/Render) + **vídeo** apresentando inspiração, design system, protótipo e o projeto contra o checklist |
+
+> 📅 **As datas de entrega estão no Moodle.** Elas mudam a cada semestre, e
+> data em arquivo do repositório envelhece sem ninguém perceber — a do Moodle é
+> a que vale.
 
 > 🎥 Se o vídeo for insuficiente, a apresentação é síncrona ao Professor
 > (presencial ou remota). O detalhamento de cada entrega está no Guia do
-> Projeto no Notion: [link no Moodle]. *(Datas valem para 2026/2 — atualize a
-> cada semestre.)*
+> Projeto no Notion: [link no Moodle].

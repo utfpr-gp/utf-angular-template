@@ -16,6 +16,11 @@ Você é o Engenheiro e o Arquiteto; a IA é a sua equipe de execução.
 
 ## 🌳 Fluxo Git e Proteção da Produção (Gitflow)
 
+> As regras desta seção valem para **o projeto que a equipe constrói**. Este
+> repositório é o template da disciplina: ele não tem produção nem release, então vive
+> só na `main`, e a manutenção dele entra por Pull Request de branch curta direto para
+> ela. A `develop` do projeto de vocês é criada pelo `/utf-setup`, no repositório novo.
+
 - **Duas branches permanentes e bloqueadas:** a `main` reflete a produção; a `develop` integra o trabalho da equipe. Commit direto em qualquer uma das duas é proibido.
 - **Trabalho:** Crie uma feature branch curta **a partir da `develop`** para cada Issue.
 - **Integração:** Ao finalizar, abra um Pull Request **para a `develop`** com `Closes #<n>`. O CI (testes + lint) precisa passar antes do merge.
@@ -36,6 +41,7 @@ Nada é duplicado neste projeto. Informação repetida diverge.
 | **Ficha**         | `docs/checklist.md`     | As regras da disciplina, os IDs e as entregas — a régua dos workflows. |
 | **Design**        | `docs/design-tokens.md` | Tokens, breakpoints, identidade PWA e o link do protótipo navegável.   |
 | **Especificação** | `specs/<issue>-<slug>/` | O `spec.md` (o que fazer), o `plan.md` (tarefas técnicas) e `reviews/` (pareceres e triagem). |
+| **Modelos**       | `docs/modelo-spec.md` e `docs/modelo-plan.md` | A forma do `spec.md` e do `plan.md`, comentada. Não são specs — são a régua. |
 | **Leis da IA**    | `.agents/`              | `rules/utf-rules.md` (constituição, carregada via `CLAUDE.md`), `workflows/` (ciclos) e `agents/` (prompts dos subagentes). |
 
 ---
@@ -61,12 +67,12 @@ O que é **norma inegociável** deste repositório são os cinco portões humano
 
 Se o Pull Request for a primeira vez que você olha o código, o método falhou. Todo PR passa por uma verificação automática antes de ser mesclado, e ela confere **uma regra só**:
 
-**O PR será REPROVADO se** a descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos **400 caracteres** (não cole o _diff_ nem a saída da IA; explique com suas palavras). Vale para **todos** os PRs, inclusive os de manutenção.
+**O PR será REPROVADO se** a descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos **250 caracteres** (não cole o _diff_ nem a saída da IA; explique com suas palavras). Vale para **todos** os PRs, inclusive os de manutenção.
 
 A documentação anda junto do código, mas quem cobra isso não é o CI: PR de história que muda comportamento atualiza `docs/` e `specs/` no mesmo commit — é o **auditor-final** (antes do PR) e o colega que revisa que conferem.
 
 **Exceção (Manutenção puramente técnica):**
-Se a mudança não afeta o produto (ex: atualizar versão, refatorar código, arrumar formatação), você não precisa criar um `spec.md`. Abra o PR direto e aplique a etiqueta `manutencao` — a explicação de 400 caracteres continua valendo.
+Se a mudança não afeta o produto (ex: atualizar versão, refatorar código, arrumar formatação), você não precisa criar um `spec.md`. Abra o PR direto e aplique a etiqueta `manutencao` — a explicação de 250 caracteres continua valendo.
 
 ---
 
