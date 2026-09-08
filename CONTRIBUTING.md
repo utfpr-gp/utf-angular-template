@@ -61,12 +61,12 @@ O que é **norma inegociável** deste repositório são os cinco portões humano
 
 Se o Pull Request for a primeira vez que você olha o código, o método falhou. Todo PR passa por uma verificação automática antes de ser mesclado, e ela confere **uma regra só**:
 
-**O PR será REPROVADO se** a descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos **400 caracteres** (não cole o _diff_ nem a saída da IA; explique com suas palavras). Vale para **todos** os PRs, inclusive os de manutenção.
+**O PR será REPROVADO se** a descrição não contiver a seção _"O que este PR faz e por quê"_ preenchida por você com pelo menos **250 caracteres** (não cole o _diff_ nem a saída da IA; explique com suas palavras). Vale para **todos** os PRs, inclusive os de manutenção.
 
 A documentação anda junto do código, mas quem cobra isso não é o CI: PR de história que muda comportamento atualiza `docs/` e `specs/` no mesmo commit — é o **auditor-final** (antes do PR) e o colega que revisa que conferem.
 
 **Exceção (Manutenção puramente técnica):**
-Se a mudança não afeta o produto (ex: atualizar versão, refatorar código, arrumar formatação), você não precisa criar um `spec.md`. Abra o PR direto e aplique a etiqueta `manutencao` — a explicação de 400 caracteres continua valendo.
+Se a mudança não afeta o produto (ex: atualizar versão, refatorar código, arrumar formatação), você não precisa criar um `spec.md`. Abra o PR direto e aplique a etiqueta `manutencao` — a explicação de 250 caracteres continua valendo.
 
 ---
 
