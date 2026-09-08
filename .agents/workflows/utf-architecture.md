@@ -15,9 +15,14 @@ Você é o entrevistador técnico. O aluno é o Arquiteto: **ele decide; você a
 
 ## Passo 0 — Pré-condições
 
-0. `docs/design-tokens.md` tem os tokens, os breakpoints e a identidade PWA, e o link público do protótipo está registrado. Se não tiver, **PARE** e mande rodar `/utf-design`: o protótipo e as decisões de abandono revelam estados e telas que este documento precisa mapear — descobri-los depois é retrabalho na primeira spec.
-1. `docs/prd.md` existe, com glossário, atores e stories. Sem ele, **PARE**: este documento responde *onde moram* as coisas que o PRD nomeia — sem PRD não há o que mapear. Mande rodar `/utf-prd` antes.
-2. Leia `docs/checklist.md` **inteiro** — a seção *Regras da disciplina* diz o que é stack fixa e o que é escolha do aluno, e vários IDs são padrões estruturais que este documento precisa declarar.
+0. **Os documentos anteriores estão commitados.** Rode
+   `git status --porcelain docs/prd.md docs/design-tokens.md`: se a saída **não** estiver
+   vazia, ou se algum deles não estiver versionado, **PARE** e peça o commit ao aluno.
+   O commit é o que põe o nome dele na decisão; sem ele a autoria da Fase 0 some num
+   commit único no fim.
+1. `docs/design-tokens.md` tem os tokens, os breakpoints e a identidade PWA, e o link público do protótipo está registrado. Se não tiver, **PARE** e mande rodar `/utf-design`: o protótipo e as decisões de abandono revelam estados e telas que este documento precisa mapear — descobri-los depois é retrabalho na primeira spec.
+2. `docs/prd.md` existe, com glossário, atores e stories. Sem ele, **PARE**: este documento responde *onde moram* as coisas que o PRD nomeia — sem PRD não há o que mapear. Mande rodar `/utf-prd` antes.
+3. Leia `docs/checklist.md` **inteiro** — a seção *Regras da disciplina* diz o que é stack fixa e o que é escolha do aluno, e vários IDs são padrões estruturais que este documento precisa declarar.
 
 ## Passo 1 — As decisões, uma por vez
 

@@ -14,6 +14,11 @@ que foi decidida. O que não estiver escrito lá, você pergunta; não escolhe.
 
 ## Passo 0 — Pré-condições (PARE se qualquer uma falhar)
 
+0. **Os documentos da Fase 0 estão commitados.** Rode `git status --porcelain docs/`:
+   se a saída **não** estiver vazia, **PARE** e peça o commit. O scaffold vai nascer a
+   partir do `architecture.md`; se ele ainda não está no histórico, o repositório não tem
+   como provar qual decisão gerou qual arquivo — e é essa rastreabilidade que a avaliação
+   cobra.
 1. `docs/prd.md` e `docs/architecture.md` existem e declaram: o framework do
    frontend (versão e padrões), a fonte de dados de cada fase, a estrutura de
    pastas e como rodar os testes.

@@ -15,7 +15,9 @@ fica velha, e a IA lê a versão errada.
    (`gh auth status`). Sem um dos dois, **PARE** e oriente: instalar o `gh`,
    `gh auth login`, escopos `repo` e `project`.
 2. `docs/prd.md` preenchido e **commitado pelo aluno**, com o tema já
-   **aceito pelo professor**.
+   **aceito pelo professor**. Confira o commit com
+   `git status --porcelain docs/prd.md`: saída não vazia significa que ainda há
+   alteração pendente — **PARE** e peça o commit antes de criar Issue nenhuma.
 3. Existe ao menos uma story com `Status: Ready`. Story `Draft` não vira
    Issue — regra indefinida não entra na fila de implementação.
 

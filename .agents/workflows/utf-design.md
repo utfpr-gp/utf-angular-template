@@ -19,6 +19,11 @@ não consegue guardar — os tokens, os breakpoints e as decisões de abandono.
 
 ## Passo 0 — Pré-condições
 
+0. **O documento anterior está commitado.** Rode `git status --porcelain docs/prd.md`:
+   se a saída **não** estiver vazia, ou se o arquivo não estiver versionado, **PARE** e
+   peça o commit ao aluno. Não é burocracia: cada documento da Fase 0 é decisão dele, e
+   o commit é o que põe o nome dele nessa decisão. Seguir sem commitar empilha os
+   documentos num commit só, no fim, e a autoria some.
 1. `docs/prd.md` preenchido, com stories e critérios. Sem ele, **PARE** e mande
    rodar `/utf-prd` — design sem requisito é decoração.
 2. Se `docs/design-tokens.md` já tem conteúdo real, **PARE** e pergunte: revisar ou
