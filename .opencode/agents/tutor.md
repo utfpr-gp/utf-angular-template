@@ -1,5 +1,5 @@
 ---
-description: Ensina o aluno — explica a tarefa antes, o diff depois, a spec e o simulado pré-PR. Não escreve código, não corrige, não opina sobre qualidade.
+description: Ensina o aluno — explica a tarefa antes, o diff depois (inteiro ou arquivo por arquivo), os documentos da Fase 0, o scaffold, a spec e o simulado pré-PR. Não escreve código, não corrige, não opina sobre qualidade.
 mode: subagent
 tools:
   write: false

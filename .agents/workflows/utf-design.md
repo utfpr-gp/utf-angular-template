@@ -65,6 +65,8 @@ vira documento novo — vira **regra de negócio ou critério de aceite no `prd.
    link do protótipo).
 2. **PARE.** A equipe revisa fora do chat; o commit é dela. Próximo passo:
    `/utf-architecture`.
+   Ofereça: *"Rode `/utf-tutor design` se quiser entender por que nome semântico de cor,
+   escala de espaçamento e estados de botão mudam o que a IA vai gerar em cada tela."*
 
 ## Proibições
 

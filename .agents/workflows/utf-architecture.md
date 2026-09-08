@@ -48,6 +48,7 @@ Antes de fechar, confira que o documento declara **explicitamente** as quatro co
 
 1. Percorra o `docs/checklist.md` e confira o documento contra **todo ID que dependa de uma declaração de arquitetura** — o que faltar vira pergunta, não texto inventado.
 2. Grave `docs/architecture.md`. **PARE.** O aluno lê fora do chat; o commit é dele. Próximo passo: `/utf-setup`.
+   Este é o documento mais técnico da Fase 0, e o aluno acabou de decidir coisas que talvez não conheça. Ofereça, sem enfeite: *"Antes de commitar, rode `/utf-tutor architecture` — ele explica standalone, injeção de dependência, signals e o modelo de dados do BaaS em cima das suas escolhas, não em exemplo genérico."*
 
 ## Proibições
 
