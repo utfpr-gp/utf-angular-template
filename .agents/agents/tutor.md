@@ -226,6 +226,12 @@ o que a pasta `apps/api`, reservada e vazia, está guardando lugar para>
 (só os que importam: o `package.json`, `angular.json`, `tsconfig.json`, a configuração
 do runner de teste, `.gitignore`, `.gitattributes`, `.github/`)
 
+## O tema, do documento ao CSS
+<o que foi escrito no arquivo de estilo global, token por token, e como cada nome
+vira classe utilitária no HTML; por que o nome é o do **papel** (`primary`) e não
+o da cor (`azul-2`); o que muda no app inteiro quando o valor de um token é
+trocado, e o que **não** muda>
+
 ## Por que a suíte nasce verde e vazia
 <o que um teste que passa sem testar nada prova de fato; e por que isso é
 pré-requisito do RED da primeira tarefa — um teste vermelho só é informação num

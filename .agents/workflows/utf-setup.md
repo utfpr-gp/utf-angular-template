@@ -19,9 +19,10 @@ que foi decidida. O que não estiver escrito lá, você pergunta; não escolhe.
    partir do `architecture.md`; se ele ainda não está no histórico, o repositório não tem
    como provar qual decisão gerou qual arquivo — e é essa rastreabilidade que a avaliação
    cobra.
-1. `docs/prd.md` e `docs/architecture.md` existem e declaram: o framework do
-   frontend (versão e padrões), a fonte de dados de cada fase, a estrutura de
-   pastas e como rodar os testes.
+1. `docs/prd.md`, `docs/architecture.md` e `docs/design-tokens.md` existem. O
+   `architecture.md` declara quatro coisas: o framework do frontend (versão e
+   padrões), a fonte de dados de cada fase, a estrutura de pastas e como rodar os
+   testes; o `design-tokens.md` traz os valores que o tema vai receber.
    Se algum desses quatro estiver ausente ou ambíguo, **PARE** e diga o que falta —
    setup com stack adivinhada é retrabalho garantido.
 2. As pastas de app previstas no `architecture.md` (ex.: `apps/web`)
@@ -70,6 +71,27 @@ dentro da estrutura de pastas que o documento descreve.
   faça a instalação da raiz primeiro.
 - Aceite os padrões do gerador. Não adicione biblioteca que o `architecture.md`
   não menciona.
+- **Os tokens do design viram CSS.** Instalado o framework, o
+  `docs/design-tokens.md` precisa chegar ao arquivo de estilo global do app — é
+  lá que o Tailwind lê. Enquanto isso não acontece, o documento é decoração: o
+  aluno decidiu a paleta e o app continua com as cores de fábrica.
+  **Pergunte antes de escrever:** *"escrevo o bloco de tema a partir do
+  `design-tokens.md`, ou você prefere escrever?"*
+  - Se ele escrever, espere e confira ao fim contra o documento.
+  - Se você escrever: transcreva **só o que está no documento** — cor,
+    tipografia, espaçamento, arredondamento, breakpoints — para os namespaces do
+    Tailwind (`--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--spacing`,
+    `--breakpoint-*`) dentro de `@theme`, **mantendo os nomes semânticos que a
+    equipe deu** (`--color-primary`, nunca `--color-azul-2`). Se o documento
+    declara uma biblioteca de componentes com mecanismo próprio de tema
+    (daisyUI, por exemplo), use o dela em vez do `@theme` cru — dois lugares
+    declarando cor é a duplicação que o método existe para evitar.
+  - **Valor que não estiver no documento, você não inventa** — pergunte. Cor
+    escolhida por modelo de linguagem é exatamente o que o `/utf-design` existe
+    para impedir; refazer isso aqui anula a atividade inteira.
+
+  Nos dois casos, **só o tema**: nenhuma tela, componente ou classe de negócio.
+
 - **O linter não vem no `ng new`.** Se o `architecture.md` declara um comando de
   lint (e ele declara — §2 exige os comandos exatos de suíte e lint), instale o
   oficial: `ng add angular-eslint`. Ele gera o `eslint.config.js` e cria o alvo
@@ -223,8 +245,9 @@ motivo, **PARE** e relate. Não tente uma terceira abordagem.
    semestre em que o aluno recebe um monte de arquivos que ele não escreveu e não
    viu nascer — se ninguém explicar, ele abre o primeiro PR sem saber o que tem
    dentro do próprio repositório. Não pergunte se ele quer: despache, apresente a
-   explicação na íntegra e só então siga. O despacho leva `docs/architecture.md`, a
-   lista de arquivos gerados e a saída dos testes.
+   explicação na íntegra e só então siga. O despacho leva `docs/architecture.md`,
+   `docs/design-tokens.md`, a lista de arquivos gerados (incluindo o arquivo de
+   estilo global, com o tema) e a saída dos testes.
 3. Relate ao usuário: o que foi gerado, a saída dos testes, e as decisões que o
    `architecture.md` não cobria (Passo 2) para ele ratificar no documento.
    **Ratificação aprovada pelo usuário = atualize o `architecture.md` na mesma
