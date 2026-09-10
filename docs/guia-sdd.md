@@ -377,7 +377,7 @@ deste ciclo (inclusive o da sua aprovação, no Passo 3) precisa de um lugar par
 
 ```bash
 git switch develop && git pull
-git switch -c 27-solicitar-vaga
+git switch -c feature/27-solicitar-vaga
 ```
 
 Dessa conversa sai o `spec.md`, em `specs/<numero-da-issue>-<slug>/`, commitado como
