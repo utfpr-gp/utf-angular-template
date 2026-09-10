@@ -62,6 +62,12 @@ dentro da estrutura de pastas que o documento descreve.
   instalado — gerador desatualizado ou incompatível descoberto no meio do passo
   é retrabalho.
 - Desative o `git init` interno do gerador — o repositório é um só, na raiz.
+- **Gere com a instalação de dependências desligada** (`--skip-install` no
+  `ng new`). O `package.json` da raiz, que declara os workspaces, só nasce no
+  Passo 3 — e um `npm install` disparado antes dele cria um `node_modules`
+  próprio dentro de `apps/web`, sem hoisting. A instalação acontece uma vez só,
+  na raiz, no fim do Passo 3. Se algum `ng add` precisar rodar antes disso,
+  faça a instalação da raiz primeiro.
 - Aceite os padrões do gerador. Não adicione biblioteca que o `architecture.md`
   não menciona.
 - Se o `architecture.md` declara ferramenta de teste diferente do padrão do gerador,
@@ -86,10 +92,18 @@ dentro da estrutura de pastas que o documento descreve.
    Sem isso, um repositório tocado em Windows e Linux reescreve todos os arquivos a
    cada troca de máquina, e o diff de qualquer PR vira ruído.
 
-3. `package.json` da raiz com os scripts de orquestração descritos no
-   `architecture.md` (ex.: `start`, `api`, `test`) — é ele que poupa o aluno de
-   entrar em `apps/web` a cada comando. Se o documento traz os scripts prontos,
-   copie-os literalmente. Dois casos desta disciplina:
+3. `package.json` da raiz — **a raiz do npm workspace**, no formato do §3.1 do
+   `architecture.md`: `"private": true`, `"workspaces": ["apps/*"]` e os scripts de
+   orquestração (`start`, `build`, `test`, `lint`, `api`). É ele que dá um
+   `npm install` único para o repositório inteiro e poupa o aluno de entrar em
+   `apps/web` a cada comando — a flag `-w apps/web` faz isso por ele. Se o documento
+   traz os scripts prontos, copie-os literalmente.
+
+   **Depois de criá-lo, rode `npm install` na raiz** — é esta instalação que junta as
+   dependências num `node_modules` só. Se `apps/web/node_modules` existir (geração
+   feita sem `--skip-install`), remova antes de instalar.
+
+   Dois casos desta disciplina:
    - **json-server declarado para o MVP:** adicione a dependência, o script
      (`"api": "json-server db.json"` ou equivalente) e um `db.json` **vazio de
      negócio** (`{}`) — as entidades chegam pelas histórias, nunca pelo setup.
