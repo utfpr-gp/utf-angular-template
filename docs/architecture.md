@@ -47,7 +47,7 @@
 - **Framework CSS:** [Tailwind, PrimeNG, …] (ID5)
 - **Dados (em duas fases):** **json-server** no MVP (E2) → **[Supabase, PocketBase, …]** na E3, com autenticação (JWT) e CRUD reais (IDs 21–22). A troca atinge só os Services (§2.1).
 - **PWA:** `manifest.webmanifest` — ícones, cores de tema, splash, standalone, offline (ID3)
-- **Testes:** [ferramenta do gerador] + comandos exatos de suíte e lint (ID33)
+- **Testes e lint:** [ferramenta do gerador] + comandos exatos de suíte e lint (ID33). O linter não vem no `ng new`: o setup instala o oficial (`ng add angular-eslint`), mais Prettier e `eslint-config-prettier` na raiz.
 
 ### 🌐 2.1. Camada de dados — regras estruturais
 
@@ -76,6 +76,7 @@
 ├── README.md              # a vitrine, na estrutura exigida pela ficha
 ├── docs/                  # prd.md, este arquivo, design-tokens.md, checklist.md e guias
 ├── specs/                 # uma pasta por história implementada
+├── package.json           # a raiz do workspace: scripts de orquestração (§3.1)
 └── apps/
     ├── web/               # o app Angular — package.json próprio
     └── api/               # reservada para uma API real, se um dia existir
@@ -87,6 +88,34 @@
 > uma API própria fizer sentido. **`apps/api/` nasce vazia, e continua vazia** — o
 > setup não gera backend nenhum; ela só guarda o lugar (e o `db.json` do
 > json-server, se o documento assim declarar).
+
+### 📦 3.1. A raiz do monorepo (npm workspaces)
+
+O `package.json` da raiz declara os subprojetos e concentra os comandos:
+
+```json
+{
+  "name": "[nome-do-projeto]",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "scripts": {
+    "start": "npm run start -w apps/web",
+    "build": "npm run build -w apps/web",
+    "test":  "npm run test -w apps/web",
+    "lint":  "npm run lint -w apps/web",
+    "format": "prettier --write .",
+    "api":   "json-server db.json"
+  }
+}
+```
+
+> 📌 **O que os workspaces resolvem aqui.** Um `npm install` na raiz instala as
+> dependências de todos os `apps/*` de uma vez, num `node_modules` só: quem clona o
+> repositório roda **um** comando, não um por pasta. A flag `-w` executa um script
+> dentro de um subprojeto sem `cd`. O curinga `apps/*` faz qualquer pasta nova ali
+> dentro ser reconhecida sem editar este arquivo, e `"private": true` impede a
+> publicação acidental no npm. **`apps/api/` não tem `package.json` e é ignorada pelo
+> npm** — nada a fazer nela.
 
 ### Organização interna do app (`apps/web/src/app/` — feature-driven)
 

@@ -19,9 +19,10 @@ que foi decidida. O que não estiver escrito lá, você pergunta; não escolhe.
    partir do `architecture.md`; se ele ainda não está no histórico, o repositório não tem
    como provar qual decisão gerou qual arquivo — e é essa rastreabilidade que a avaliação
    cobra.
-1. `docs/prd.md` e `docs/architecture.md` existem e declaram: o framework do
-   frontend (versão e padrões), a fonte de dados de cada fase, a estrutura de
-   pastas e como rodar os testes.
+1. `docs/prd.md`, `docs/architecture.md` e `docs/design-tokens.md` existem. O
+   `architecture.md` declara quatro coisas: o framework do frontend (versão e
+   padrões), a fonte de dados de cada fase, a estrutura de pastas e como rodar os
+   testes; o `design-tokens.md` traz os valores que o tema vai receber.
    Se algum desses quatro estiver ausente ou ambíguo, **PARE** e diga o que falta —
    setup com stack adivinhada é retrabalho garantido.
 2. As pastas de app previstas no `architecture.md` (ex.: `apps/web`)
@@ -62,8 +63,40 @@ dentro da estrutura de pastas que o documento descreve.
   instalado — gerador desatualizado ou incompatível descoberto no meio do passo
   é retrabalho.
 - Desative o `git init` interno do gerador — o repositório é um só, na raiz.
+- **Gere com a instalação de dependências desligada** (`--skip-install` no
+  `ng new`). O `package.json` da raiz, que declara os workspaces, só nasce no
+  Passo 3 — e um `npm install` disparado antes dele cria um `node_modules`
+  próprio dentro de `apps/web`, sem hoisting. A instalação acontece uma vez só,
+  na raiz, no fim do Passo 3. Se algum `ng add` precisar rodar antes disso,
+  faça a instalação da raiz primeiro.
 - Aceite os padrões do gerador. Não adicione biblioteca que o `architecture.md`
   não menciona.
+- **Os tokens do design viram CSS.** Instalado o framework, o
+  `docs/design-tokens.md` precisa chegar ao arquivo de estilo global do app — é
+  lá que o Tailwind lê. Enquanto isso não acontece, o documento é decoração: o
+  aluno decidiu a paleta e o app continua com as cores de fábrica.
+  **Pergunte antes de escrever:** *"escrevo o bloco de tema a partir do
+  `design-tokens.md`, ou você prefere escrever?"*
+  - Se ele escrever, espere e confira ao fim contra o documento.
+  - Se você escrever: transcreva **só o que está no documento** — cor,
+    tipografia, espaçamento, arredondamento, breakpoints — para os namespaces do
+    Tailwind (`--color-*`, `--font-*`, `--text-*`, `--radius-*`, `--spacing`,
+    `--breakpoint-*`) dentro de `@theme`, **mantendo os nomes semânticos que a
+    equipe deu** (`--color-primary`, nunca `--color-azul-2`). Se o documento
+    declara uma biblioteca de componentes com mecanismo próprio de tema
+    (daisyUI, por exemplo), use o dela em vez do `@theme` cru — dois lugares
+    declarando cor é a duplicação que o método existe para evitar.
+  - **Valor que não estiver no documento, você não inventa** — pergunte. Cor
+    escolhida por modelo de linguagem é exatamente o que o `/utf-design` existe
+    para impedir; refazer isso aqui anula a atividade inteira.
+
+  Nos dois casos, **só o tema**: nenhuma tela, componente ou classe de negócio.
+
+- **O linter não vem no `ng new`.** Se o `architecture.md` declara um comando de
+  lint (e ele declara — §2 exige os comandos exatos de suíte e lint), instale o
+  oficial: `ng add angular-eslint`. Ele gera o `eslint.config.js` e cria o alvo
+  `lint` no `angular.json`. Sem isso, a prova de vida do Passo 5 roda um comando
+  que não existe.
 - Se o `architecture.md` declara ferramenta de teste diferente do padrão do gerador,
   siga o documento; se não declara, fique com o padrão do gerador e **relate isso no
   fim** como decisão que o usuário precisa ratificar no `architecture.md`.
@@ -86,16 +119,48 @@ dentro da estrutura de pastas que o documento descreve.
    Sem isso, um repositório tocado em Windows e Linux reescreve todos os arquivos a
    cada troca de máquina, e o diff de qualquer PR vira ruído.
 
-3. `package.json` da raiz com os scripts de orquestração descritos no
-   `architecture.md` (ex.: `start`, `api`, `test`) — é ele que poupa o aluno de
-   entrar em `apps/web` a cada comando. Se o documento traz os scripts prontos,
-   copie-os literalmente. Dois casos desta disciplina:
+3. `package.json` da raiz — **a raiz do npm workspace**, no formato do §3.1 do
+   `architecture.md`: `"private": true`, `"workspaces": ["apps/*"]` e os scripts de
+   orquestração (`start`, `build`, `test`, `lint`, `api`). É ele que dá um
+   `npm install` único para o repositório inteiro e poupa o aluno de entrar em
+   `apps/web` a cada comando — a flag `-w apps/web` faz isso por ele. Se o documento
+   traz os scripts prontos, copie-os literalmente.
+
+   **Depois de criá-lo, rode `npm install` na raiz** — é esta instalação que junta as
+   dependências num `node_modules` só. Se `apps/web/node_modules` existir (geração
+   feita sem `--skip-install`), remova antes de instalar.
+
+   Dois casos desta disciplina:
    - **json-server declarado para o MVP:** adicione a dependência, o script
      (`"api": "json-server db.json"` ou equivalente) e um `db.json` **vazio de
      negócio** (`{}`) — as entidades chegam pelas histórias, nunca pelo setup.
    - **PWA declarado:** rode `ng add @angular/pwa` e preencha o
      `manifest.webmanifest` com a identidade decidida no `/utf-design`
      (nome curto, cores, ícones) — sem inventar valores.
+
+4. **Formatação, na raiz — regra do projeto, não preferência de quem digita.**
+
+   Na raiz (sem `-w`, para ficarem como dependência da raiz e hoisted para todos
+   os apps):
+
+   ```
+   npm install -D prettier eslint-config-prettier
+   ```
+
+   Mais um `.prettierrc` (pode nascer `{}` — o padrão do Prettier serve) e um
+   `.editorconfig` com `indent_style`, `indent_size`, `end_of_line = lf` e
+   `insert_final_newline`. Acrescente ao `package.json` da raiz:
+   `"format": "prettier --write ."`.
+
+   O `eslint-config-prettier` desliga as regras de estilo do ESLint que brigariam
+   com o Prettier — a config recomendada do angular-eslint inclui
+   `tseslint.configs.stylistic`, então o conflito é real, não teórico. Aplique-o
+   **por último** no `eslint.config.js`.
+
+   Estes arquivos são o que o agente lê para saber como escrever: sem eles, cada
+   integrante formata de um jeito e todo Pull Request vira ruído de espaço em
+   branco. **Não instale extensão de IDE por eles** — extensão é da máquina de
+   cada um; aqui o que se versiona é a regra.
 
 ## Passo 4 — As ferramentas do método
 
@@ -180,8 +245,9 @@ motivo, **PARE** e relate. Não tente uma terceira abordagem.
    semestre em que o aluno recebe um monte de arquivos que ele não escreveu e não
    viu nascer — se ninguém explicar, ele abre o primeiro PR sem saber o que tem
    dentro do próprio repositório. Não pergunte se ele quer: despache, apresente a
-   explicação na íntegra e só então siga. O despacho leva `docs/architecture.md`, a
-   lista de arquivos gerados e a saída dos testes.
+   explicação na íntegra e só então siga. O despacho leva `docs/architecture.md`,
+   `docs/design-tokens.md`, a lista de arquivos gerados (incluindo o arquivo de
+   estilo global, com o tema) e a saída dos testes.
 3. Relate ao usuário: o que foi gerado, a saída dos testes, e as decisões que o
    `architecture.md` não cobria (Passo 2) para ele ratificar no documento.
    **Ratificação aprovada pelo usuário = atualize o `architecture.md` na mesma
