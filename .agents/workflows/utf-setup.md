@@ -70,6 +70,11 @@ dentro da estrutura de pastas que o documento descreve.
   faça a instalação da raiz primeiro.
 - Aceite os padrões do gerador. Não adicione biblioteca que o `architecture.md`
   não menciona.
+- **O linter não vem no `ng new`.** Se o `architecture.md` declara um comando de
+  lint (e ele declara — §2 exige os comandos exatos de suíte e lint), instale o
+  oficial: `ng add angular-eslint`. Ele gera o `eslint.config.js` e cria o alvo
+  `lint` no `angular.json`. Sem isso, a prova de vida do Passo 5 roda um comando
+  que não existe.
 - Se o `architecture.md` declara ferramenta de teste diferente do padrão do gerador,
   siga o documento; se não declara, fique com o padrão do gerador e **relate isso no
   fim** como decisão que o usuário precisa ratificar no `architecture.md`.
@@ -110,6 +115,30 @@ dentro da estrutura de pastas que o documento descreve.
    - **PWA declarado:** rode `ng add @angular/pwa` e preencha o
      `manifest.webmanifest` com a identidade decidida no `/utf-design`
      (nome curto, cores, ícones) — sem inventar valores.
+
+4. **Formatação, na raiz — regra do projeto, não preferência de quem digita.**
+
+   Na raiz (sem `-w`, para ficarem como dependência da raiz e hoisted para todos
+   os apps):
+
+   ```
+   npm install -D prettier eslint-config-prettier
+   ```
+
+   Mais um `.prettierrc` (pode nascer `{}` — o padrão do Prettier serve) e um
+   `.editorconfig` com `indent_style`, `indent_size`, `end_of_line = lf` e
+   `insert_final_newline`. Acrescente ao `package.json` da raiz:
+   `"format": "prettier --write ."`.
+
+   O `eslint-config-prettier` desliga as regras de estilo do ESLint que brigariam
+   com o Prettier — a config recomendada do angular-eslint inclui
+   `tseslint.configs.stylistic`, então o conflito é real, não teórico. Aplique-o
+   **por último** no `eslint.config.js`.
+
+   Estes arquivos são o que o agente lê para saber como escrever: sem eles, cada
+   integrante formata de um jeito e todo Pull Request vira ruído de espaço em
+   branco. **Não instale extensão de IDE por eles** — extensão é da máquina de
+   cada um; aqui o que se versiona é a regra.
 
 ## Passo 4 — As ferramentas do método
 

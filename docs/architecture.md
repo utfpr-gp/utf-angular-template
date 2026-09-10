@@ -47,7 +47,7 @@
 - **Framework CSS:** [Tailwind, PrimeNG, …] (ID5)
 - **Dados (em duas fases):** **json-server** no MVP (E2) → **[Supabase, PocketBase, …]** na E3, com autenticação (JWT) e CRUD reais (IDs 21–22). A troca atinge só os Services (§2.1).
 - **PWA:** `manifest.webmanifest` — ícones, cores de tema, splash, standalone, offline (ID3)
-- **Testes:** [ferramenta do gerador] + comandos exatos de suíte e lint (ID33)
+- **Testes e lint:** [ferramenta do gerador] + comandos exatos de suíte e lint (ID33). O linter não vem no `ng new`: o setup instala o oficial (`ng add angular-eslint`), mais Prettier e `eslint-config-prettier` na raiz.
 
 ### 🌐 2.1. Camada de dados — regras estruturais
 
@@ -103,6 +103,7 @@ O `package.json` da raiz declara os subprojetos e concentra os comandos:
     "build": "npm run build -w apps/web",
     "test":  "npm run test -w apps/web",
     "lint":  "npm run lint -w apps/web",
+    "format": "prettier --write .",
     "api":   "json-server db.json"
   }
 }
