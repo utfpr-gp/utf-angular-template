@@ -22,9 +22,10 @@ Você é o Engenheiro e o Arquiteto; a IA é a sua equipe de execução.
 > ela. A `develop` do projeto de vocês é criada pelo `/utf-setup`, no repositório novo.
 
 - **Duas branches permanentes e bloqueadas:** a `main` reflete a produção; a `develop` integra o trabalho da equipe. Commit direto em qualquer uma das duas é proibido.
-- **Trabalho:** Crie uma feature branch curta **a partir da `develop`** para cada Issue.
+- **Trabalho:** Crie uma branch curta **a partir da `develop`** para cada Issue, nomeada `feature/<numero-da-issue>-<slug>`. Manutenção (bug, tarefa técnica, setup) usa `chore/<slug>`.
 - **Integração:** Ao finalizar, abra um Pull Request **para a `develop`** com `Closes #<n>`. O CI (testes + lint) precisa passar antes do merge.
 - **Release:** quando a `develop` está estável, um PR de `develop` → `main` publica a versão (é o que o deploy em produção acompanha).
+- **O que este projeto não usa:** o Gitflow original também prevê branches `release/*` e `hotfix/*`. Aqui não há trem de release nem correção de emergência em produção separada — a publicação é o próprio PR de `develop` → `main`. Se vocês encontrarem esses nomes em tutoriais, não é algo que ficou faltando.
 - **Em equipe (ID27):** todo PR precisa da aprovação de **um colega** antes do merge — quem abre a story não mergeia o próprio PR. Os portões da história (spec, triagem, commit) são do **dono da história**; a revisão do PR é do colega.
 
 ---

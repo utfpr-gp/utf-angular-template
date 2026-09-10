@@ -38,7 +38,7 @@ que foi decidida. O que não estiver escrito lá, você pergunta; não escolhe.
 ## Passo 1 — Branch
 
 ```
-git switch -c setup-projeto
+git switch -c chore/setup-projeto
 ```
 
 Nenhum arquivo é criado antes da branch existir. No Gitflow, `main` e `develop` são bloqueadas — a branch do setup nasce da `develop` e volta para ela por PR.

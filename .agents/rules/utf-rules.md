@@ -31,7 +31,8 @@ Ao estourar qualquer um dos dois, PARE IMEDIATAMENTE e diga qual estourou: "Esto
 
 ## 5. Regras de Git 
 - **Gitflow: `main` e `develop` são sagradas e bloqueadas.** Nunca faça commits diretos em nenhuma das duas. A `main` reflete produção; a `develop` integra o trabalho da equipe.
-- Toda implementação nasce em uma branch separada (Feature Branch), criada a partir da `develop`.
+- Toda implementação nasce em uma branch separada, criada a partir da `develop`, e **o nome carrega o tipo**: `feature/<numero-da-issue>-<slug>` para história, `chore/<slug>` para manutenção (bug, tarefa técnica, setup).
+- **A pasta da spec não leva prefixo:** `specs/<numero-da-issue>-<slug>/`. O prefixo é da branch, não do caminho no disco.
 - No fim da Issue, instrua o usuário a abrir um Pull Request para a `develop`.
 
 ## 6. Integração com GitHub (MCP)
