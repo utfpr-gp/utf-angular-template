@@ -33,7 +33,7 @@ Você é o entrevistador técnico. O aluno é o Arquiteto: **ele decide; você a
 
    Independente da escolha, registre também a **regra da camada de dados**, que vale para as três: componente não fala com o servidor — todo acesso à API passa por uma camada de repositório/serviço; mudança de contrato mexe só nessa camada, nunca nas telas.
 2. **Fonte de dados, por fase** — o que a ficha fixa, registre como está; o que ela deixa livre, decida aqui: onde vive o `db.json` do json-server no MVP, qual BaaS entra na E3 e como a troca é absorvida pelos Services.
-3. **Testes** — a ferramenta em cada app e os **comandos exatos** para rodar suíte e lint.
+3. **Testes** — já vêm declarados no esqueleto (§2 e §3.1): **Vitest**, o padrão do gerador, e os scripts da raiz `npm test` e `npm run lint`. **Não entreviste sobre comando:** apresente como padrão a ratificar, explicando em uma frase por que é Vitest e não Karma (o Karma é o que a maioria dos tutoriais mostra, e virou opção no gerador). Só mude se o aluno pedir outra ferramenta — aí registre o comando dela no lugar.
 4. **Estrutura do projeto** — a casca de monorepo `apps/web` (o app Angular) e `apps/api` (**vazia**, reservada para uma API real futura; o setup não gera nada nela), e a organização interna de `apps/web/src/app/`: `core/` (Services de dados, guards, interceptors), `shared/` (componentes burros, pipes) e `features/` (uma pasta por domínio), com a regra de dependência entre elas.
 5. **Glossário técnico** — termos do PRD (PT) → entidades (EN) com atributos principais. Dados e código em inglês, interface em português — meio a meio é o que produz `listaPedidos`.
 6. **Diagrama ER (Mermaid)** — as entidades e relações, incluindo as que o **escopo mínimo da ficha** exige.
