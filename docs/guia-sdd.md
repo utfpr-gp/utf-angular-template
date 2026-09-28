@@ -184,8 +184,7 @@ Contém:
 - **Diagrama de contexto (opcional).** Trata o seu sistema como caixa preta e ilustra
   quem o usa e com que serviços externos ele conversa (o BaaS, autenticação social,
   mapas, sistema da UTFPR).
-- **Modelo de dados (diagrama ER).** As tabelas do BaaS e seus relacionamentos — o
-  mesmo diagrama que vai renderizado no README.
+- **Modelo de dados (diagrama ER).** As tabelas do BaaS e seus relacionamentos.
 - **Glossário técnico (PT-BR → EN).** A ponte que garante que o PRD em português
   ("Aplicação") vire a entidade correta em inglês no código e no banco (`apps`),
   matando o código espanglês.

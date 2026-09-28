@@ -148,8 +148,8 @@ domínio) — com a regra de dependência: features não importam umas das outra
 
 ### 📊 5.2. Diagrama ER (Mermaid)
 
-> As tabelas do BaaS e seus relacionamentos — o mesmo diagrama vai renderizado
-> no README, como a ficha exige.
+> As tabelas do BaaS e seus relacionamentos. O diagrama mora só aqui — o README
+> aponta para este documento, sem copiá-lo.
 
 ```mermaid
 erDiagram
