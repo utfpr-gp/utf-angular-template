@@ -47,7 +47,7 @@
 - **Framework CSS:** [Tailwind, PrimeNG, …] (ID5)
 - **Dados (em duas fases):** **json-server** no MVP (E2) → **[Supabase, PocketBase, …]** na E3, com autenticação (JWT) e CRUD reais (IDs 21–22). A troca atinge só os Services (§2.1).
 - **PWA:** `manifest.webmanifest` — ícones, cores de tema, splash, standalone, offline (ID3)
-- **Testes e lint:** [ferramenta do gerador] + comandos exatos de suíte e lint (ID33). O linter não vem no `ng new`: o setup instala o oficial (`ng add angular-eslint`), mais Prettier e `eslint-config-prettier` na raiz.
+- **Testes e lint:** **Vitest**, o padrão do `ng new` desde o Angular 21 — o Karma, que aparece na maioria dos tutoriais, virou opção. Da raiz, `npm test` roda a suíte e `npm run lint` roda o linter: são os scripts do §3.1 (ID33). O linter não vem no `ng new`: o setup instala o oficial (`ng add angular-eslint`), mais Prettier e `eslint-config-prettier` na raiz.
 
 ### 🌐 2.1. Camada de dados — regras estruturais
 
