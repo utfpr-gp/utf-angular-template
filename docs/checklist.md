@@ -44,8 +44,7 @@
   disciplina ele é chamado de `ssd.md` — é o mesmo documento).
 - **README.md** com a estrutura exigida: título/nome do app, autores,
   descrição, links para `docs/prd.md`, `docs/architecture.md` e
-  `docs/checklist.md`, **diagrama ER em Mermaid renderizado no próprio
-  README**, link do protótipo (Stitch/Figma), stack (Angular, framework CSS,
+  `docs/checklist.md`, link do protótipo (Stitch/Figma), stack (Angular, framework CSS,
   BaaS, bibliotecas), link do site em produção, instruções de execução e
   imagens de telas.
 
