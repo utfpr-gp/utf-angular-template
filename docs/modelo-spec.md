@@ -43,8 +43,10 @@ status: rascunho   # rascunho | aprovada
 ## Abandono no meio
 
 <!-- O raciocínio, em prosa, que gerou os critérios de abandono acima.
-     As telas desta história estão no protótipo e os pontos de desistência estão
-     registrados no `docs/prd.md`: cada um deles entra aqui.
+     Os pontos de desistência estão registrados no `docs/prd.md`: cada um deles entra
+     aqui. Se a tela desta história está no protótipo, confira o texto dela contra esta
+     spec; se não está (o protótipo tem só as telas principais), ela nasce no ciclo,
+     a partir desta spec e do `docs/design-tokens.md`.
      Perguntas que costumam achar o buraco: o que acontece se a pessoa fechar a aba
      agora? se a conexão cair no meio do envio? se a sessão do BaaS expirar? se a
      resposta nunca chegar e a tela ficar carregando para sempre? -->

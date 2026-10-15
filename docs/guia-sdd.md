@@ -243,6 +243,30 @@ problema real, que é a IA inventar um botão diferente a cada tela, é bem meno
 Com isso no repositório, a prototipagem assistida por IA tem a que obedecer. Sem isso,
 cada tela nasce de um gosto diferente.
 
+**Por que três a cinco, e não todas.** O protótipo é a jornada (§3.4) e é avaliado
+(ID1) — mas "três a cinco" não é um mínimo a superar, é uma escolha:
+
+- **A tela envelhece antes de ser construída.** Cada história ainda vai passar pela
+  conversa do `/utf-issue`, que quase sempre ajusta detalhes. Uma tela desenhada hoje
+  para uma história que só será feita daqui a semanas chega errada ao ciclo, e alguém
+  vai confiar nela.
+- **Quem mantém as telas coerentes é o `design-tokens.md`, não o protótipo.** Com
+  paleta, escala, tipografia, estados de botão e breakpoints escritos, a tela feita
+  durante a história já nasce igual às outras.
+
+Escolha as telas **das jornadas principais e arriscadas**: onde a pessoa trava, espera
+ou desiste, e onde uma decisão de tela errada custa caro. **As demais nascem no ciclo de
+cada história**, a partir da spec aprovada e dos tokens.
+
+**A ferramenta de protótipo inventa regra de negócio.** Gerador de tela por IA preenche
+o vazio com o que é comum no mercado: põe preço onde o PRD decidiu não ter, promete
+"disponível imediatamente", "verificado" ou "certificado" onde o sistema não confere
+nada, cria filtro que o PRD deixou fora de escopo. Por isso: gere as telas **depois** do
+`prd.md`, nunca antes, e **leia o texto** de cada tela contra ele — conteúdo de
+protótipo não é requisito. Quando protótipo e documentos divergem, vale o documento: o
+`design-tokens.md` para a aparência, o `prd.md` para o conteúdo — e o protótipo, que é
+entrega avaliada, é corrigido para concordar com eles.
+
 Os tokens, os breakpoints, a identidade PWA e o link do protótipo saem do mesmo comando, o `/utf-design`.
 
 ### 3.6 A regra de ouro dos documentos

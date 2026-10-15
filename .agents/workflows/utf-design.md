@@ -55,6 +55,19 @@ não consegue guardar — os tokens, os breakpoints e as decisões de abandono.
    `docs/design-tokens.md` e no README. O protótipo é a jornada navegável: telas
    das stories principais, no fluxo real.
 
+   Explique por que **três a cinco telas, e não todas** (guia, §3.5): a tela desenhada
+   antes da spec envelhece, e quem mantém a coerência entre as telas são os tokens. As
+   demais telas nascem no ciclo de cada história.
+
+   **Confira o conteúdo das telas contra o `docs/prd.md`.** Se o MCP da ferramenta
+   estiver conectado, leia o texto de cada tela; senão, peça ao aluno que o percorra
+   com você. Ferramenta de protótipo inventa regra de negócio — preço, prazos,
+   "verificado", "certificado", filtros que o PRD deixou fora de escopo. Cada
+   contradição vira uma **pendência do protótipo** no documento, para a equipe corrigir
+   a tela; não vira requisito, e não é aceita em silêncio. Registre também: **quando
+   protótipo e documentos divergirem, vale o documento** — o `design-tokens.md` para a
+   aparência, o `prd.md` para o conteúdo.
+
 ## Passo 2 — Mobile-First (ID2)
 
 Pergunte e registre nos tokens: os **breakpoints** e a regra de layout — o design
