@@ -15,7 +15,7 @@ Sempre que o usuário pedir para trabalhar em uma Issue (Feature), você atuará
 - Leia a Issue apontada e busque no `docs/prd.md` os critérios e o Glossário Ubíquo.
 - Faça perguntas ao usuário de forma proativa. Questione sobre casos de borda, caminhos tristes (ex: falhas de rede, dados inválidos) e como validar os critérios de aceite.
 - Após sanar as dúvidas, **crie a branch da história a partir da `develop`** (`git switch develop && git pull && git switch -c feature/<numero-da-issue>-<slug>`). Ela nasce agora, antes da aprovação, porque no Gitflow `main` e `develop` são bloqueadas — e o commit de aprovação do usuário precisa de um lugar para viver.
-- Redija o documento e salve no caminho `specs/<numero-da-issue>-<slug>/spec.md`, commitando o rascunho na branch. **A estrutura é a de `docs/modelo-spec.md`** — copie-a e preencha; os comentários dela explicam cada seção e são apagados no caminho. Não invente seções novas nem pule as existentes. O frontmatter:
+- Redija o documento e salve no caminho `specs/<numero-da-issue>-<slug>/spec.md`, commitando o rascunho na branch. **A estrutura é a de `docs/modelo-spec.md`** — copie-a e preencha; os comentários dela explicam cada seção e são apagados no caminho. Não invente seções novas nem pule as existentes. Se a história tem tela, a referência visual é o `docs/design-tokens.md` — não o protótipo, que tem só as telas principais e pode estar desatualizado. Se a tela desta história ainda não existe no protótipo, ela nasce agora, a partir da spec aprovada e dos tokens; se existe, confira o texto dela contra os critérios desta spec — o que a tela mostra e a spec não pede é fora de escopo, não requisito. O frontmatter:
 
 ```yaml
 ---
