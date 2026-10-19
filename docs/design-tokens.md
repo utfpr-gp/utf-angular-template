@@ -14,17 +14,18 @@
 
 ## Paleta
 
-Nome semântico, nunca `azul-2` — a cor muda, o papel dela não.
+Nome semântico, nunca `blue-2` — a cor muda, o papel dela não. O nome é em
+inglês, como o resto do código: ele vira classe do framework CSS (`bg-primary`).
 
 | Token | Valor | Onde se usa |
 | --- | --- | --- |
-| `primaria` | | ação principal |
-| `superficie` | | fundo de card e painel |
-| `texto` | | texto padrão |
-| `texto-suave` | | legenda, apoio |
-| `perigo` | | erro, exclusão |
-| `sucesso` | | confirmação |
-| `desabilitado` | | controle inativo |
+| `primary` | | ação principal |
+| `surface` | | fundo de card e painel |
+| `text` | | texto padrão |
+| `text-muted` | | legenda, apoio |
+| `danger` | | erro, exclusão |
+| `success` | | confirmação |
+| `disabled` | | controle inativo |
 
 ## Escala de espaçamento
 

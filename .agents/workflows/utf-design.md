@@ -49,7 +49,10 @@ não consegue guardar — os tokens, os breakpoints e as decisões de abandono.
 1. **Framework CSS** — apresente as opções que a ficha permite (ex.: Tailwind,
    PrimeNG), com o custo de cada uma. A escolha é única para o semestre.
 2. **Tokens** — grave em `docs/design-tokens.md`: paleta (com os papéis: primária,
-   superfície, erro…), escala de espaçamento, tipografia, estados de botão. Não é
+   superfície, erro…), escala de espaçamento, tipografia, estados de botão.
+   **O nome do token é em inglês** (`primary`, `surface`, `danger`), como o resto do
+   código: no setup ele vira classe do framework CSS (`bg-primary`). A conversa com o
+   aluno segue em português; só o nome gravado na tabela é em inglês. Não é
    design system completo — é o mínimo para a IA não inventar um botão por tela.
 3. **Protótipo** — registre o **link público** do Stitch/Figma no
    `docs/design-tokens.md` e no README. O protótipo é a jornada navegável: telas
